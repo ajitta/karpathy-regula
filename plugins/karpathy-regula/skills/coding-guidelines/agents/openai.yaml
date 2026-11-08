@@ -1,0 +1,4 @@
+interface:
+  display_name: "Karpathy Guidelines - Regula"
+  short_description: "Scoped changes with explicit verification"
+  default_prompt: "Use $karpathy-regula:coding-guidelines for this coding task."

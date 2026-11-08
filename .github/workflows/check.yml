@@ -1,0 +1,31 @@
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install validation dependency
+        run: python -m pip install -r requirements-dev.txt
+      - name: Validate and test package
+        run: |
+          python -m unittest discover -s tests -v
+          python tools/package.py --check
+          python tools/package.py
+      - name: Claude Code validation
+        run: |
+          npm install -g --silent @anthropic-ai/claude-code
+          claude plugin validate --strict plugins/karpathy-regula
+          claude plugin validate --strict .

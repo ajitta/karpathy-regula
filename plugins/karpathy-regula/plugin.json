@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "karpathy-regula",
+  "version": "0.1.0",
+  "description": "Karpathy's coding guidelines, revised with dia-regula.",
+  "author": { "name": "ajitta" },
+  "repository": "https://github.com/ajitta/karpathy-regula",
+  "license": "MIT",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Karpathy Regula",
+        "shortDescription": "Think, scope, code, verify",
+        "longDescription": "Coding guidelines for explicit assumptions, minimal implementations, scoped changes, and verifiable goals. An unofficial Regula revision of the public Karpathy Guidelines skill.",
+        "developerName": "ajitta",
+        "category": "Productivity",
+        "capabilities": [],
+        "defaultPrompt": "Use $karpathy-regula:coding-guidelines for this coding task."
+      }
+    }
+  }
+}

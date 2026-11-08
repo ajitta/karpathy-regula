@@ -1,0 +1,13 @@
+{
+  "name": "karpathy-regula",
+  "description": "Karpathy coding guidelines revised with dia-regula for Claude Code and Codex.",
+  "owner": { "name": "ajitta" },
+  "plugins": [
+    {
+      "name": "karpathy-regula",
+      "source": "./plugins/karpathy-regula",
+      "description": "Karpathy's coding guidelines, revised with dia-regula.",
+      "version": "0.1.0"
+    }
+  ]
+}

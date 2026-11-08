@@ -1,0 +1,14 @@
+{
+  "source": "https://github.com/multica-ai/andrej-karpathy-skills/blob/2c606141936f1eeef17fa3043a72095b4765b9c2/skills/karpathy-guidelines/SKILL.md",
+  "editing_standard": "dia-regula 2.2.0",
+  "reviewed_revision_sha256": "d99d3b1bd4d04bd866aca10479b24ecaf4864053f08db44f1d0715ab3275346d",
+  "reviewed_body_sha256": "1e2a7a3a82800299461a5210ae7e00361e64686cd87b821ce29356388cbb40e5",
+  "research_record": "https://github.com/ajitta/dialectic-skills/tree/562369929331854a95a5415e94790d5eb68d9b85/docs/research/karpathy-regula-2026-11-08",
+  "packaging_changes": [
+    "Skill identifier changed from karpathy-guidelines to coding-guidelines.",
+    "Skill metadata.version set to 0.1.0.",
+    "Added host manifests, UI metadata and marketplace catalogs."
+  ],
+  "skill_body_changed": false,
+  "packaged_invocation_behavior_evaluated": false
+}
