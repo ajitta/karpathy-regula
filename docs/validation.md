@@ -19,5 +19,6 @@ does not claim submission to either vendor's public plugin directory.
 
 The coding instruction body is byte-identical to the reviewed revision's body;
 only skill identity and frontmatter metadata changed. The historical study is
-linked from provenance and NOTICE. No new model turn was run to evaluate the
+available in the [local research archive](research/karpathy-regula-2026-11-08/README.md)
+and linked from provenance and NOTICE. No new model turn was run to evaluate the
 renamed plugin invocation or to establish a behavioral improvement.
