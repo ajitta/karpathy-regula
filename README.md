@@ -1,7 +1,9 @@
 # Karpathy Regula
 
 Karpathy's coding guidelines for Claude Code and Codex, rewritten so that each
-instruction keeps its condition, its action and its reason together. Both hosts
+instruction keeps its condition, its action and its reason together (one clause added
+in 0.2.0 still lacks its own reason; see
+[Remaining limits](#remaining-limits-of-the-text)). Both hosts
 load one shared English skill, `coding-guidelines`, with four principles: think
 before coding, keep implementations simple, make scoped changes, and define
 verifiable goals.
@@ -160,7 +162,9 @@ because a reason lets the model generalize a rule to cases it does not name. The
 [original snapshot](docs/research/karpathy-regula-2026-11-08/inputs/original-SKILL.md),
 [evaluated revision](docs/research/karpathy-regula-2026-11-08/inputs/revised-SKILL.md)
 and [review and adjudication record](docs/research/karpathy-regula-2026-11-08/review-and-adjudication.md)
-let you compare them. The revision has fewer lines but 17.7% more body text.
+let you compare them. The revision has fewer lines but 17.7% more body text. Version
+0.2.0 changes one more clause, in section 4; see
+[0.2.0: reproduce first](#020-reproduce-first-even-for-a-one-line-fix).
 
 ## Evidence and limits
 
@@ -209,18 +213,48 @@ yielded 11 completed runs and 13 account-limit interruptions. Visible messages a
 tool actions do not reveal private reasoning. None of this shows better judgment or
 better code. See [evaluation methods and results](docs/research/karpathy-regula-2026-11-08/behavioral-evaluation.md).
 
-### Known limits of the text
+### 0.2.0: reproduce first, even for a one-line fix
 
-These come from the original and are kept, because a change to the skill body needs
-an explicit request, an updated provenance record (see [AGENTS.md](AGENTS.md)) and,
-as a meaning change, its own comparison runs:
+0.2.0 changes one clause in section 4: "Fix the bug" now becomes "writing a test that
+reproduces it before changing the code, even for a one-line fix, and making it pass".
+In smoke runs with the new text (Codex CLI 0.166.0, `gpt-6.1-sol`, high effort, 2 runs
+per task), the model ran a check against the correct value and saw it fail before
+fixing the bug task in both runs, and one of the two added a test and kept it. Runs
+with the 0.1.1 text earlier the same day had also checked the bug before editing, but
+by confirming the wrong value. The message before the first edit stayed on the cleanup
+and bug tasks, and the typo task stayed a one-file change. Two other candidate clauses
+showed no difference and were dropped. A rewrite of the trivial-task clause was dropped
+because, in the same smoke, the message before the first edit on the cleanup and bug
+tasks went missing with it. Two runs per task is a smoke reading, not an established
+effect, and Claude Code was not run on these tasks; see the
+[eval record](docs/evals/2026-11-09-0.2.0.md). The research counts above were measured
+on the 0.1.x body.
+
+### Remaining limits of the text
+
+The first three come from the original:
 
 - "For trivial tasks, use judgment." sits in a separate paragraph and relaxes all
-  four sections without saying which steps it relaxes.
-- "loop until they are verified" does not say what to do when no check can run.
-- Section 4 turns "Fix the bug" into writing a test that reproduces it, but does not
-  say whether to keep that test. On the verification task no completed run of
-  either version kept one (0 of 6 pilot runs, 0 of 11 follow-up runs).
+  four sections without saying which steps it relaxes. With a rewrite that named what
+  may be skipped, the message before the first edit went missing on the cleanup and
+  bug tasks in the smoke runs, so it was not shipped.
+- "loop until they are verified" does not say what to do when no check can run. On a
+  task whose Go tests could not run, the text without such a rule already reported
+  them as not run (2/2), so none was added.
+- Section 4 does not say whether to keep the reproducing test. On the verification
+  task no research run kept one (0 of 6 pilot runs, 0 of 11 follow-up runs); on the
+  bug task with the 0.2.0 text, 1 of 2 smoke runs did.
+
+The 0.2.0 clause adds three, found by a blind review against dia-regula 2.3.0:
+
+- "even for a one-line fix" conflicts with "For trivial tasks, use judgment.", and
+  the text does not say which wins. In the smoke runs the new clause won (2/2).
+- The clause sets an order (the test before the fix) without its own reason.
+- It gives no fallback when no test can reproduce the bug, for example when there is
+  no test harness or the fault is in configuration.
+
+A further change to the skill body needs an explicit request, an updated provenance
+record and an eval record (see [AGENTS.md](AGENTS.md)).
 
 ### Research archive
 
@@ -231,9 +265,9 @@ including `review.md`, which corrects the record where they differ. Paths inside
 such as `docs/spec.md`, `docs/probes.md` and `AGENTS.md` refer to that repository.
 It holds the input texts, review history, exact task fixtures, all 60 attempted-run
 results, process observations, selected execution excerpts, and proposals for
-dia-regula (review.md records which were adopted). The full native event archive and private local paths are not
-published. The source and the evaluated body's hash are recorded in
-[provenance](docs/provenance.json).
+dia-regula (review.md records which were adopted). The full native event archive and
+private local paths are not published. The source, the research revision's body hash
+and the shipped body's hash are recorded in [provenance](docs/provenance.json).
 
 ## Names
 

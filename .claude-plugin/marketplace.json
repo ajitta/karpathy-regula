@@ -7,7 +7,7 @@
       "name": "karpathy-regula",
       "source": "./plugins/karpathy-regula",
       "description": "Karpathy's coding guidelines, revised with dia-regula.",
-      "version": "0.1.1"
+      "version": "0.2.0"
     }
   ]
 }

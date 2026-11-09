@@ -3,7 +3,7 @@ name: coding-guidelines
 description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
 license: MIT
 metadata:
-  version: "0.1.1"
+  version: "0.2.0"
 ---
 
 # Karpathy Guidelines
@@ -30,7 +30,7 @@ When editing existing code, remove imports, variables, and functions that your c
 
 ## 4. Goal-Driven Execution
 
-Define verifiable success criteria and loop until they are verified, because strong success criteria let you work independently while weak criteria such as "make it work" require constant clarification; translate "Add validation" into writing tests for invalid inputs and making them pass, "Fix the bug" into writing a test that reproduces it and making it pass, and "Refactor X" into ensuring tests pass before and after.
+Define verifiable success criteria and loop until they are verified, because strong success criteria let you work independently while weak criteria such as "make it work" require constant clarification; translate "Add validation" into writing tests for invalid inputs and making them pass, "Fix the bug" into writing a test that reproduces it before changing the code, even for a one-line fix, and making it pass, and "Refactor X" into ensuring tests pass before and after.
 
 For multi-step tasks, state a brief plan that pairs each step with its verification check, because this makes each step's success criteria explicit.
 
