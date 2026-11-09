@@ -10,14 +10,13 @@ coding guidelines.
 | Python package tests | 9 passed: one shared skill with hidden manifests, archive entries in POSIX path order, reproducible archive, version drift rejection, the same rejection under `python -O`, an error line for a missing manifest key, rejection of an unexpected plugin file, catalog path escape rejection, and unreviewed body-edit rejection |
 | `python tools/package.py --check` | Passed |
 | Reproducible ZIP | The same SHA-256 from Python 3.12 and 3.14, and after changing every file's modification time; entries are ordered by POSIX path so a Windows build uses the same order |
-| Claude Code 2.1.314 | Plugin and marketplace validation passed with `--strict` (missing-icon advisory only). Installed from `ajitta/karpathy-regula` in an isolated config directory and listed as enabled |
-| Codex CLI 0.166.0 | Installed from `ajitta/karpathy-regula` in an isolated state directory and listed as installed and enabled |
-| Named invocation | Claude Code: `/karpathy-regula:coding-guidelines` with `--plugin-dir` loaded the body in 2 of 2 runs (Haiku; one run quoted a sentence that exists only in the revision). Codex: `$karpathy-regula:coding-guidelines` read the installed plugin's `SKILL.md` in 1 of 1 run (`gpt-6.1-sol`, medium effort) |
+| Claude Code 2.1.314 | Plugin and marketplace validation passed with `--strict` (missing-icon advisory only). After the merge, 0.1.1 installed from `ajitta/karpathy-regula` and from the `ajitta/claude-plugins` catalog, each in its own isolated config directory. An install of 0.1.0 made before the merge went to 0.1.1 with the README's two update commands; the uninstall and marketplace-remove commands then left neither behind |
+| Codex CLI 0.166.0 | After the merge, 0.1.1 installed from `ajitta/karpathy-regula` in an isolated state directory, with the skill's display name "Karpathy Regula". An install of 0.1.0 made before the merge went to 0.1.1 with `marketplace upgrade` and `plugin add`; `remove` and `marketplace remove` then left neither behind |
+| Named invocation | Claude Code: `/karpathy-regula:coding-guidelines` with `--plugin-dir` on 0.1.1 loaded the body in 2 of 2 runs (Haiku; one run quoted a sentence that exists only in the revision). Codex: `$karpathy-regula:coding-guidelines` read the installed plugin's `SKILL.md` in 1 of 1 run on 0.1.0 (`gpt-6.1-sol`, medium effort) |
 | Loading without the name | One coding request that did not name the skill: Codex read the skill in 2 of 2 runs (`gpt-6.1-sol`, medium effort); Claude Code with its default model listed it but loaded it in 0 of 2 runs |
 
-Install and loading rows used 0.1.0 (from `main` and a `--plugin-dir` copy); its
-skill body and description are identical to 0.1.1. The 0.1.1 install is rechecked
-from GitHub after merge.
+The Codex invocation run and both loading-without-the-name checks used 0.1.0; its
+skill body and description are identical to 0.1.1.
 
 The isolated directories were deleted afterward, and the credentials copied into
 the Codex probe were removed after its runs. The owner's installed plugins and
