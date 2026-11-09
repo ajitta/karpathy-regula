@@ -15,9 +15,10 @@ with the actions it gates and adds reasons. In section 1 it also turns the sloga
 original does not give. Under dia-regula 2.3.0 these added reasons and that step
 count as meaning changes. Packaging changes the skill's identifier to
 `coding-guidelines`. Version 0.2.0 changes one clause in section 4: a bug fix starts
-from a test that reproduces it before the code changes, even for a one-line fix, as in
-the upstream repository's test-first example (EXAMPLES.md, "Test-First Verification").
-The change and its measurement are recorded in `docs/evals/` of this repository.
+from a test that reproduces it before the code changes, as in the upstream
+repository's EXAMPLES.md Example 3, "Test-First Verification" (commit 2c60614); "even
+for a one-line fix" is this plugin's addition. The change and its measurement are
+recorded in `docs/evals/` of this repository.
 
 Neither Andrej Karpathy, the upstream authors, nor the upstream maintainers are
 claimed to endorse this plugin. dia-regula is an editing method, not a runtime dependency.
