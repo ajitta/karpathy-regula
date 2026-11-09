@@ -1,7 +1,21 @@
 # Packaging validation
 
 These are package, install and loading checks, not behavioral evaluations of the
-coding guidelines.
+coding guidelines. The 0.2.0 body change was measured separately; see
+[docs/evals/2026-11-09-0.2.0.md](evals/2026-11-09-0.2.0.md).
+
+## 0.2.0 (2026-11-09)
+
+| Check | Result |
+|---|---|
+| Python package tests and `package.py --check` | 9 passed; check passed with the new body hash in `docs/provenance.json` |
+| Reproducible ZIP | The same SHA-256 from Python 3.12 and 3.14 |
+| Claude Code 2.1.314 | `--strict` validation passed (missing-icon advisory only). After the merge, 0.2.0 installed from `ajitta/karpathy-regula` and from the `ajitta/claude-plugins` catalog, each in its own isolated config directory; an install of 0.1.1 made before the merge went to 0.2.0 with the README's two update commands, and its cached `SKILL.md` holds the new clause |
+| Codex CLI 0.166.0 | After the merge, 0.2.0 installed from `ajitta/karpathy-regula` in an isolated state directory; an install of 0.1.1 made before the merge went to 0.2.0 with `marketplace upgrade` and `plugin add`, and its cached `SKILL.md` holds the new clause |
+| Named invocation | Claude Code: `/karpathy-regula:coding-guidelines` with `--plugin-dir` on 0.2.0 quoted the new "Fix the bug" clause verbatim (1 of 1 run, Haiku) |
+
+The isolated directories were deleted afterward. The owner's installed plugins and
+settings were not changed.
 
 ## 0.1.1 (2026-11-09)
 
