@@ -3,13 +3,16 @@
   "editing_standard": "dia-regula 2.2.0",
   "reviewed_revision_sha256": "d99d3b1bd4d04bd866aca10479b24ecaf4864053f08db44f1d0715ab3275346d",
   "reviewed_body_sha256": "1e2a7a3a82800299461a5210ae7e00361e64686cd87b821ce29356388cbb40e5",
-  "research_record": "https://github.com/ajitta/dialectic-skills/tree/562369929331854a95a5415e94790d5eb68d9b85/docs/research/karpathy-regula-2026-11-08",
+  "research_record": "https://github.com/ajitta/dialectic-skills/tree/6db2b90c6e7e19bea5cf3dd7c11bd72a2a757a40/docs/research/karpathy-regula-2026-11-08",
+  "research_record_review": "docs/research/karpathy-regula-2026-11-08/review.md",
+  "meaning_change_note": "Under dia-regula 2.3.0 the added reasons, and the section 1 step that was a slogan in the original, count as meaning changes.",
   "local_research_archive": "docs/research/karpathy-regula-2026-11-08/README.md",
   "packaging_changes": [
     "Skill identifier changed from karpathy-guidelines to coding-guidelines.",
-    "Skill metadata.version set to 0.1.0.",
+    "Skill metadata.version follows the plugin version.",
     "Added host manifests, UI metadata and marketplace catalogs."
   ],
   "skill_body_changed": false,
-  "packaged_invocation_behavior_evaluated": false
+  "packaged_invocation_behavior_evaluated": false,
+  "packaged_invocation_load_check": "docs/validation.md"
 }
