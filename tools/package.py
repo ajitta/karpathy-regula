@@ -14,6 +14,16 @@ PLUGIN_REL = Path('plugins') / PLUGIN_NAME
 # Fixed entry metadata so that rebuilding a tag reproduces the released archive byte for byte.
 ZIP_DATE_TIME = (1980, 1, 1, 0, 0, 0)
 ZIP_FILE_MODE = 0o100644
+# Every file the plugin ships; anything else (an editor backup, .DS_Store) fails the check.
+PLUGIN_FILES = frozenset({
+    '.claude-plugin/plugin.json',
+    '.codex-plugin/plugin.json',
+    'LICENSE',
+    'NOTICE.md',
+    'plugin.json',
+    'skills/coding-guidelines/SKILL.md',
+    'skills/coding-guidelines/agents/openai.yaml',
+})
 
 
 class PackageError(Exception):
@@ -61,6 +71,7 @@ def validate(root=ROOT):
         else:
             check(catalog['owner']['name'] == 'ajitta', 'Missing marketplace owner')
             check(entry['version'] == portable['version'], 'Catalog version drift')
+            check(entry['description'] == portable['description'], 'Catalog description drift')
 
     skill_files = list((plugin / 'skills').glob('*/SKILL.md'))
     check(len(skill_files) == 1, 'Exactly one shared skill is expected')
@@ -85,7 +96,12 @@ def validate(root=ROOT):
     for file in plugin.rglob('*'):
         check(not file.is_symlink(), f'Symlink is not allowed: {file}')
         if file.is_file():
-            check(b'\r' not in file.read_bytes(), f'Use LF line endings: {file}')
+            data = file.read_bytes()
+            check(b'\r' not in data, f'Use LF line endings: {file}')
+            check(not data.startswith(b'\xef\xbb\xbf'), f'Remove the UTF-8 byte order mark: {file}')
+    shipped = {p.relative_to(plugin).as_posix() for p in plugin.rglob('*') if p.is_file()}
+    check(shipped == PLUGIN_FILES, f'Unexpected plugin files: added {sorted(shipped - PLUGIN_FILES)}, '
+          f'missing {sorted(PLUGIN_FILES - shipped)}')
     return plugin, portable['version']
 
 
@@ -93,7 +109,8 @@ def package(root=ROOT):
     plugin, version = validate(root)
     out = Path(root) / 'dist' / f'{PLUGIN_NAME}-{version}.zip'
     out.parent.mkdir(exist_ok=True)
-    files = sorted(p for p in plugin.rglob('*') if p.is_file())
+    # Sort by the POSIX string so Windows (case-insensitive path order) builds the same archive.
+    files = sorted((p for p in plugin.rglob('*') if p.is_file()), key=lambda p: p.relative_to(plugin).as_posix())
     with zipfile.ZipFile(out, 'w') as archive:
         for file in files:
             name = str(PurePosixPath(PLUGIN_NAME, *file.relative_to(plugin).parts))
@@ -121,4 +138,7 @@ if __name__ == '__main__':
             print(package())
     except PackageError as error:
         print(f'error: {error}', file=sys.stderr)
+        sys.exit(1)
+    except KeyError as error:
+        print(f'error: missing key {error}', file=sys.stderr)
         sys.exit(1)

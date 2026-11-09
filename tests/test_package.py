@@ -42,6 +42,26 @@ class PackageTests(unittest.TestCase):
             self.assertIn('karpathy-regula/NOTICE.md', names)
             self.assertFalse(any('marketplace.json' in n for n in names))
 
+    def test_archive_order_is_posix_string_order(self):
+        with zipfile.ZipFile(tool.package(self.root)) as archive:
+            names = archive.namelist()
+        self.assertEqual(names, sorted(names))
+
+    def test_unexpected_plugin_file_is_rejected(self):
+        (self.root / 'plugins/karpathy-regula/skills/.DS_Store').write_bytes(b'x')
+        with self.assertRaisesRegex(tool.PackageError, 'Unexpected plugin files'):
+            tool.validate(self.root)
+
+    def test_missing_key_reports_an_error_line(self):
+        file = self.root / 'plugins/karpathy-regula/plugin.json'
+        metadata = json.loads(file.read_text(encoding='utf-8'))
+        del metadata['license']
+        file.write_text(json.dumps(metadata), encoding='utf-8')
+        result = subprocess.run([sys.executable, str(self.root / 'tools/package.py'), '--check'],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("error: missing key 'license'", result.stderr)
+
     def test_archive_is_reproducible(self):
         first = tool.package(self.root).read_bytes()
         for file in (self.root / 'plugins').rglob('*'):

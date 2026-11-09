@@ -7,7 +7,7 @@ before coding, keep implementations simple, make scoped changes, and define
 verifiable goals.
 
 This is an unofficial adaptation of the Karpathy Guidelines skill by
-[forrestchang](https://github.com/forrestchang); see
+[forrestchang](https://github.com/forrestchang) and contributors; see
 [attribution](plugins/karpathy-regula/NOTICE.md). It has not been shown to produce
 better code than the original; see [Evidence and limits](#evidence-and-limits).
 
@@ -68,9 +68,10 @@ directory. Availability depends on the host version and workspace settings.
 
 Both hosts list the skill with its description, so a model may load it when a
 coding task matches that description. In a small check (one coding request that did
-not name the skill, two runs per host), Codex CLI 0.166.0 with `gpt-6.1-sol` read
-the skill on its own in both runs, while Claude Code 2.1.314 with its default model
-listed it but did not load it in either run. In Claude Code,
+not name the skill, two runs per host), Codex CLI 0.166.0 with `gpt-6.1-sol` at
+medium effort read the skill on its own in both runs, while Claude Code 2.1.314 with
+its default model, loading the plugin through `--plugin-dir`, listed it but did not
+load it in either run. In Claude Code,
 name the skill as in step 4 when you want it applied.
 
 ### Update or remove
@@ -81,6 +82,7 @@ Claude Code, from a terminal:
 claude plugin marketplace update karpathy-regula
 claude plugin update karpathy-regula@karpathy-regula
 claude plugin uninstall karpathy-regula@karpathy-regula
+claude plugin marketplace remove karpathy-regula
 ```
 
 Codex:
@@ -89,10 +91,11 @@ Codex:
 codex plugin marketplace upgrade karpathy-regula
 codex plugin add karpathy-regula@karpathy-regula
 codex plugin remove karpathy-regula@karpathy-regula
+codex plugin marketplace remove karpathy-regula
 ```
 
-The first two lines of each block update; the last line removes the plugin.
-Start a new session after either.
+In each block, the first two lines update the plugin, the third removes it, and the
+last also drops the marketplace. Start a new session afterwards.
 
 ## What you will notice
 
@@ -171,10 +174,10 @@ the model to read the skill file before the task.
 |---|---|---|
 | Functional and scope checks | 18/18 | 18/18 |
 | A message between reading the task files and the first edit (editing tasks) | 4/15 | 12/15 |
-| Mean-denominator task: failing assertion against the correct expected value before the fix | 1/3 | 0/3 |
+| Verification (mean) task: failing assertion against the correct expected value before the fix | 1/3 | 0/3 |
 
 The message category was defined after the runs; in all 47 completed runs it
-equals "the run posted a third public message". All three revised mean-task runs
+equals "the run posted a third public message". All three revised verification-task runs
 checked the current wrong value before editing, but not with a failing assertion
 against the correct value: more explanation did not mean stricter compliance with
 the requested procedure. See the [process analysis](docs/research/karpathy-regula-2026-11-08/process-analysis.md).
@@ -193,8 +196,9 @@ that swap section 1 between the texts:
 The cleanup difference recurred and follows section 1, the section whose meaning
 changed. Which part of that section brings the message (the new step, its two
 added reasons or the layout) was not isolated. The verification difference did not
-recur: the original posted the message too, so the pilot's message difference on
-that task (0/3 against 3/3) is an observation of one build and day. See [review.md](docs/research/karpathy-regula-2026-11-08/review.md)
+recur: the original posted the message too, so the record's difference on that
+task (pilot 0/3 against 3/3, follow-up 0/6 against 5/5) is an observation of one
+build and day. See [review.md](docs/research/karpathy-regula-2026-11-08/review.md)
 and the [probe record](https://github.com/ajitta/dialectic-skills/blob/6db2b90c6e7e19bea5cf3dd7c11bd72a2a757a40/docs/probes.md#L826).
 
 ### What this does not show
@@ -208,14 +212,15 @@ better code. See [evaluation methods and results](docs/research/karpathy-regula-
 ### Known limits of the text
 
 These come from the original and are kept, because a change to the skill body needs
-its own comparison runs (see [AGENTS.md](AGENTS.md)):
+an explicit request, an updated provenance record (see [AGENTS.md](AGENTS.md)) and,
+as a meaning change, its own comparison runs:
 
 - "For trivial tasks, use judgment." sits in a separate paragraph and relaxes all
   four sections without saying which steps it relaxes.
 - "loop until they are verified" does not say what to do when no check can run.
 - Section 4 turns "Fix the bug" into writing a test that reproduces it, but does not
   say whether to keep that test. On the verification task no completed run of
-  either version kept one (0/17).
+  either version kept one (0 of 6 pilot runs, 0 of 11 follow-up runs).
 
 ### Research archive
 
@@ -225,8 +230,8 @@ the session record in ajitta/dialectic-skills at
 including `review.md`, which corrects the record where they differ. Paths inside it
 such as `docs/spec.md`, `docs/probes.md` and `AGENTS.md` refer to that repository.
 It holds the input texts, review history, exact task fixtures, all 60 attempted-run
-results, process observations, selected execution excerpts, and unadopted proposals
-for dia-regula. The full native event archive and private local paths are not
+results, process observations, selected execution excerpts, and proposals for
+dia-regula (review.md records which were adopted). The full native event archive and private local paths are not
 published. The source and the evaluated body's hash are recorded in
 [provenance](docs/provenance.json).
 
