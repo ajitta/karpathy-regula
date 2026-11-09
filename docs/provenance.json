@@ -2,7 +2,8 @@
   "source": "https://github.com/multica-ai/andrej-karpathy-skills/blob/2c606141936f1eeef17fa3043a72095b4765b9c2/skills/karpathy-guidelines/SKILL.md",
   "editing_standard": "dia-regula 2.2.0",
   "reviewed_revision_sha256": "d99d3b1bd4d04bd866aca10479b24ecaf4864053f08db44f1d0715ab3275346d",
-  "reviewed_body_sha256": "1e2a7a3a82800299461a5210ae7e00361e64686cd87b821ce29356388cbb40e5",
+  "research_revision_body_sha256": "1e2a7a3a82800299461a5210ae7e00361e64686cd87b821ce29356388cbb40e5",
+  "reviewed_body_sha256": "3e9317be30ae2d842f5847c0b0cf0391c885bb2767c53742a2b2f6098f996844",
   "research_record": "https://github.com/ajitta/dialectic-skills/tree/6db2b90c6e7e19bea5cf3dd7c11bd72a2a757a40/docs/research/karpathy-regula-2026-11-08",
   "research_record_review": "docs/research/karpathy-regula-2026-11-08/review.md",
   "meaning_change_note": "Under dia-regula 2.3.0 the added reasons, and the section 1 step that was a slogan in the original, count as meaning changes.",
@@ -12,7 +13,17 @@
     "Skill metadata.version follows the plugin version.",
     "Added host manifests, UI metadata and marketplace catalogs."
   ],
-  "skill_body_changed": false,
+  "skill_body_changed": true,
+  "body_changes": [
+    {
+      "version": "0.2.0",
+      "section": "4. Goal-Driven Execution",
+      "from": "\"Fix the bug\" into writing a test that reproduces it and making it pass,",
+      "to": "\"Fix the bug\" into writing a test that reproduces it before changing the code, even for a one-line fix, and making it pass,",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-09-0.2.0.md"
+    }
+  ],
   "packaged_invocation_behavior_evaluated": false,
   "packaged_invocation_load_check": "docs/validation.md"
 }

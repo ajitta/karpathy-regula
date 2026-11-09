@@ -1,0 +1,35 @@
+run,task,arm,exit_code,functional_check,skill_read,pre_edit_message,failing_check_before_fix,test_kept,scope_ok,changed_files
+cleanup-A-1,cleanup,A,0,True,True,True,False,False,True,labels.py
+cleanup-A-2,cleanup,A,0,True,True,True,False,False,True,labels.py
+minimal-A-1,minimal,A,0,True,True,True,False,False,True,slugs.py
+minimal-A-2,minimal,A,0,True,True,True,True,True,True,slugs.py test_app.py
+nocheck-A-1,nocheck,A,0,True,True,True,False,False,True,greet.go
+nocheck-A-2,nocheck,A,0,True,True,False,False,False,True,greet.go
+trivial-A-1,trivial,A,0,README fixed,True,False,False,False,True,README.md
+trivial-A-2,trivial,A,0,README fixed,True,False,False,False,True,README.md
+verification-A-1,verification,A,0,True,True,True,False,False,True,math_ops.py
+verification-A-2,verification,A,0,True,True,True,False,False,True,math_ops.py
+cleanup-B-1,cleanup,B,0,True,True,False,False,False,True,labels.py
+cleanup-B-2,cleanup,B,0,True,True,False,False,False,True,labels.py
+minimal-B-1,minimal,B,0,True,True,True,True,True,True,slugs.py test_app.py
+minimal-B-2,minimal,B,0,True,True,True,True,True,True,slugs.py test_app.py
+nocheck-B-1,nocheck,B,0,True,True,False,False,False,True,greet.go
+nocheck-B-2,nocheck,B,0,True,True,False,False,False,True,greet.go
+trivial-B-1,trivial,B,0,README fixed,True,False,False,False,True,README.md
+trivial-B-2,trivial,B,0,README fixed,True,False,False,False,True,README.md
+verification-B-1,verification,B,0,True,True,False,True,False,True,math_ops.py
+verification-B-2,verification,B,0,True,True,False,True,True,True,math_ops.py test_app.py
+cleanup-C-1,cleanup,C,0,True,True,True,False,False,True,labels.py
+cleanup-C-2,cleanup,C,0,True,True,True,False,False,True,labels.py
+verification-C-1,verification,C,0,True,True,True,False,False,True,math_ops.py
+verification-C-2,verification,C,0,True,True,True,False,False,True,math_ops.py
+cleanup-D-1,cleanup,D,0,True,True,False,False,False,True,labels.py
+cleanup-D-2,cleanup,D,0,True,True,False,False,False,True,labels.py
+verification-D-1,verification,D,0,True,True,False,True,False,True,math_ops.py
+verification-D-2,verification,D,0,True,True,False,True,False,True,math_ops.py
+cleanup-E-1,cleanup,E,0,True,True,True,False,False,True,labels.py
+cleanup-E-2,cleanup,E,0,True,True,True,False,False,True,labels.py
+trivial-E-1,trivial,E,0,README fixed,True,False,False,False,True,README.md
+trivial-E-2,trivial,E,0,README fixed,True,False,False,False,True,README.md
+verification-E-1,verification,E,0,True,True,True,True,False,True,math_ops.py
+verification-E-2,verification,E,0,True,True,True,True,True,True,math_ops.py test_app.py

@@ -7,8 +7,10 @@ Claude and Codex load this same file. Keep the portable, Claude, and Codex plugi
 manifests aligned on identity and version, and keep both marketplace paths pointed
 at that plugin directory.
 
-The skill body is the reviewed Regula revision. A body change needs an explicit
-request and an updated provenance record; do not imply an unmeasured improvement.
+The skill body is the reviewed Regula revision plus the changes listed under
+`body_changes` in `docs/provenance.json`, each with its eval record in `docs/evals/`.
+A body change needs an explicit request, an updated provenance record and an eval
+record; do not imply an unmeasured improvement.
 The name, frontmatter, and host metadata may change without rewriting its body.
 
 Checks:

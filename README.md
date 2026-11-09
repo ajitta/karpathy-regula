@@ -160,7 +160,9 @@ because a reason lets the model generalize a rule to cases it does not name. The
 [original snapshot](docs/research/karpathy-regula-2026-11-08/inputs/original-SKILL.md),
 [evaluated revision](docs/research/karpathy-regula-2026-11-08/inputs/revised-SKILL.md)
 and [review and adjudication record](docs/research/karpathy-regula-2026-11-08/review-and-adjudication.md)
-let you compare them. The revision has fewer lines but 17.7% more body text.
+let you compare them. The revision has fewer lines but 17.7% more body text. Version
+0.2.0 changes one more clause, in section 4; see
+[0.2.0: reproduce first](#020-reproduce-first-even-for-a-one-line-fix).
 
 ## Evidence and limits
 
@@ -209,18 +211,35 @@ yielded 11 completed runs and 13 account-limit interruptions. Visible messages a
 tool actions do not reveal private reasoning. None of this shows better judgment or
 better code. See [evaluation methods and results](docs/research/karpathy-regula-2026-11-08/behavioral-evaluation.md).
 
-### Known limits of the text
+### 0.2.0: reproduce first, even for a one-line fix
 
-These come from the original and are kept, because a change to the skill body needs
-an explicit request, an updated provenance record (see [AGENTS.md](AGENTS.md)) and,
-as a meaning change, its own comparison runs:
+0.2.0 changes one clause in section 4: "Fix the bug" now becomes "writing a test that
+reproduces it before changing the code, even for a one-line fix, and making it pass".
+In a smoke comparison (Codex CLI 0.166.0, `gpt-6.1-sol`, high effort, 2 runs per
+cell), the bug task ran a failing check against the correct value before the fix in
+2 of 2 runs (0.1.1: 0 of 2), and one of the two kept its test. The message before the
+first edit stayed on the cleanup and bug tasks (2/2 each), and the typo task stayed a
+one-file change. Two other candidate clauses showed no difference and were dropped, and
+a rewrite of the trivial-task clause was dropped because it removed the message before
+the first edit on one-line tasks. See the [eval record](docs/evals/2026-11-09-0.2.0.md).
+The research counts above were measured on the 0.1.x body.
+
+### Remaining limits of the text
+
+These come from the original:
 
 - "For trivial tasks, use judgment." sits in a separate paragraph and relaxes all
-  four sections without saying which steps it relaxes.
-- "loop until they are verified" does not say what to do when no check can run.
-- Section 4 turns "Fix the bug" into writing a test that reproduces it, but does not
-  say whether to keep that test. On the verification task no completed run of
-  either version kept one (0 of 6 pilot runs, 0 of 11 follow-up runs).
+  four sections without saying which steps it relaxes. A rewrite that named what may
+  be skipped removed the message before the first edit on one-line tasks (0/2 against
+  2/2), so it was not shipped.
+- "loop until they are verified" does not say what to do when no check can run. On a
+  task whose Go tests could not run, the text without such a rule already reported
+  them as not run (2/2), so none was added.
+- Section 4 does not say whether to keep the reproducing test. No research run kept
+  one (0 of 6 pilot runs, 0 of 11 follow-up runs); in the 0.2.0 smoke, 1 of 2 did.
+
+A further change to the skill body needs an explicit request, an updated provenance
+record and an eval record (see [AGENTS.md](AGENTS.md)).
 
 ### Research archive
 
