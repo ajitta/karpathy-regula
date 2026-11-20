@@ -41,6 +41,9 @@ post. Two sentences that bound these rules (a reply form the user asked for is k
 without the two labelled lines; code whose run could not be reversed is not run as a
 check) come from a review of this text and are the editor's.
 
+Version 0.3.1 rewrites the body's long sentences as shorter ones; it is meant to change
+no rule.
+
 Neither Andrej Karpathy, the upstream authors, nor the upstream maintainers are
 claimed to endorse this plugin. dia-regula is an editing method, not a runtime dependency.
 

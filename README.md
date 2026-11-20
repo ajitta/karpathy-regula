@@ -210,7 +210,9 @@ let you compare them. The revision has fewer lines but 17.7% more body text. Ver
 0.2.0 changes one more clause, in section 4; see
 [0.2.0: reproduce first](#020-reproduce-first-even-for-a-one-line-fix). Version 0.3.0
 adds rules the original does not have, which takes the body from 2,677 to 6,757 bytes; see
-[0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete).
+[0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete). Version 0.3.1
+rewrites the long sentences as shorter ones without changing the rules (7,022 bytes); see
+[0.3.1](#031-shorter-sentences).
 
 ## Evidence and limits
 
@@ -291,7 +293,7 @@ calling work complete) are seven edits to the text, shown here as eight changes:
 | The reply opens with two labelled lines, "Outcome, as stated" and "Outcome, as read". | Section 1, same paragraph | Follows [dia-regula 3.0.0](https://github.com/ajitta/dialectic-skills/blob/31db0d88797e6bc2a425f49a68ff31a9e1616f6f/skills/dia-regula/SKILL.md): a reading the user never sees cannot be corrected. |
 | Where the user asked for the reply to be only the code or only output a script parses, that form is kept and the two lines are left out. | Section 1, same paragraph | Without it the two lines would open such a reply too. |
 | Open the file that settles an assumption before stating it or asking; ask where the workspace cannot settle which interpretation is meant and they would lead to different code. | Section 1, second paragraph | "If you are uncertain, ask." |
-| When the named action cannot produce the outcome: say so with the evidence, still carry out the named action when it helps, and make the smallest further change inside a bound (wider when the user stated the outcome, narrower when the model read it in); propose the rest. | Section 3, new last paragraph | The one exception to "every changed line should trace directly to the user's request". |
+| When the named action cannot produce the outcome: say so with the evidence, still carry out the named action when it helps, and make the smallest further change inside a bound (wider when the user stated the outcome, narrower when the model read it in); propose the rest. | Section 3, new last paragraph | The one exception to "Every changed line should trace directly to the user's request". |
 | Success criteria are for the outcome the request is for; the loop reports instead of looping when a check cannot run or the next step is a change to propose. | Section 4, first paragraph | "Loop until they are verified" had no exit. |
 | Call the work complete only after running the check that proves it and cite its output; name a check that cannot run and what was checked instead; say "not executed; inspection only" for a changed file that nothing executes. | Section 4, new last paragraph | The original has no rule for the completion claim. |
 | Code whose run could not be reversed (it charges money, messages people, pushes, deploys or changes a live database) is not run as a check, unless the user asked for that run; it is treated as a check that cannot run. | Section 4, same paragraph | Bounds "running the code directly" as a check. |
@@ -361,6 +363,33 @@ coding work. The text was also revised on the tasks that scored it: each wording
 written after reading the runs before it, and the clause that restored the question on
 the ambiguous request was then checked on that same request. See the [eval record](docs/evals/2026-11-21-0.3.0.md).
 
+### 0.3.1: shorter sentences
+
+0.3.1 changes how the body is written, not what it says. The 0.3.0 body had sentences of
+up to 833 characters, because each paragraph was one sentence holding a rule with its
+condition and its reason. Nine paragraphs are rewritten in shorter sentences that stay
+inside their paragraph, so each rule is still whole in one place:
+
+| | 0.3.0 | 0.3.1 |
+|---|---|---|
+| Longest sentence, characters | 833 | 279 |
+| Median sentence, characters | 323 | 133 |
+| Body, bytes | 6,757 | 7,022 |
+
+Section 1's paragraph on assumptions, which chained four cases in one sentence, is now a
+lead sentence with one labelled item per case, worked through in order. Wording that an
+earlier record had tied to behaviour is kept as it was.
+
+Two blind reviews of drafts found places where a split had cut a condition or a reason
+off the instruction it belonged to; all were fixed before any run. Then 17 smoke runs on
+Claude Code (`claude-opus-5-5`, the skill invoked by name) repeated the tasks of the 0.3.0
+record, one run each on most: every task met the expectation written for it in 0.3.0,
+including the tasks where behaviour was expected to stay, which the 0.3.0 text itself had
+not been run on. One thing differed: the two labelled lines were missing from one of six
+replies on the four larger tasks, where the 0.3.0 wordings had printed them every time (18
+of 18); two further runs of that task printed them. Codex was not run on the 0.3.1 text.
+See the [eval record](docs/evals/2026-11-21-0.3.1.md).
+
 ### Remaining limits of the text
 
 Three come from the original:
@@ -402,7 +431,7 @@ The 0.3.0 additions add these, found by four blind reviews against
 them as they are because each fix would be a new meaning change needing its own runs;
 that review standard says a confirmed finding is fixed, so this is a departure from it:
 
-- "still carry out the named action when it helps toward that outcome and say so when
+- "Still carry out the named action when it helps toward that outcome, and say so when
   you leave it undone" lets the model leave undone an action the user asked for in so
   many words, even for an outcome it only read in. Asked to add a cache to a function
   when the log shows the slowness is elsewhere, it may add none. Under the 0.2.0 text
@@ -417,7 +446,7 @@ that review standard says a confirmed finding is fixed, so this is a departure f
   gets the two lines, and so does a reply whose form a wrapper or a CI prompt sets and
   not the user; "only the code" also meets section 4's "cite its output" with nothing
   said about which wins. The second rests on the model judging what it "could not
-  reverse", and its list of cases is not the same as section 3's; "unless the user
+  reverse", and its list of cases is not the same as section 3's; "Unless the user
   asked for that run" could be read into "fix it and make sure it works", and "changes
   a live database" could make a test against a development database a check that
   cannot run.
@@ -429,9 +458,6 @@ that review standard says a confirmed finding is fixed, so this is a departure f
 - Section 4 aims the success criteria at the outcome on every request, while the two
   labelled lines are asked for only above the threshold; in the runs they appeared on
   every larger task and on some small ones.
-- The second paragraph of section 1 chains four cases in one sentence (a file settles
-  it, an assumption remains, the interpretations lead to different code, something is
-  unclear).
 - The list of further changes to propose and not make (irreversible, a dependency, a
   deploy file, a credential) has no reason of its own, so the model cannot extend it
   to a case it does not name.
