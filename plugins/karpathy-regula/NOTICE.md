@@ -20,6 +20,23 @@ repository's EXAMPLES.md Example 3, "Test-First Verification" (commit 2c60614); 
 for a one-line fix" is this plugin's addition. The change and its measurement are
 recorded in `docs/evals/` of this repository.
 
+Version 0.3.0 adds rules that are not in the upstream skill and are not Karpathy's:
+working out and showing the outcome a request is for, reading the evidence and the
+record behind a claim before building on it, a bound on how far a change may go
+beyond the request when the named action cannot produce that outcome, and a rule for
+calling work complete. They adapt two rules ajitta wrote for his own working contract
+for coding agents ("Purpose before action" and "Verification", not published); the
+two labelled lines follow dia-regula 3.0.0. Three of these additions touch points of
+Karpathy's post that the upstream skill does not carry. The post says models make
+wrong assumptions "and just run along with them without checking", where the skill
+says to state them; the 0.3.0 text opens the file that settles an assumption first.
+The post lists "they don't surface inconsistencies"; the 0.3.0 text reports when the
+named action cannot produce the outcome. The post advises users "Don't tell it what
+to do, give it success criteria"; the 0.3.0 text has the model work the outcome out
+when the user did tell it what to do, which is the editor's inference and not
+something the post says. The rule for calling work complete has no counterpart in the
+post.
+
 Neither Andrej Karpathy, the upstream authors, nor the upstream maintainers are
 claimed to endorse this plugin. dia-regula is an editing method, not a runtime dependency.
 

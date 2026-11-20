@@ -6,7 +6,11 @@ in 0.2.0 still lacks its own reason; see
 [Remaining limits](#remaining-limits-of-the-text)). Both hosts
 load one shared English skill, `coding-guidelines`, with four principles: think
 before coding, keep implementations simple, make scoped changes, and define
-verifiable goals.
+verifiable goals. From 0.3.0 the text also carries three additions that are not in
+the original: work out and show the outcome a request is for, a bound on how far a
+change may go beyond the request when the named action cannot reach that outcome,
+and a rule for calling work complete; see
+[0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete).
 
 This is an unofficial adaptation of the Karpathy Guidelines skill by
 [forrestchang](https://github.com/forrestchang) and contributors; see
@@ -139,6 +143,41 @@ changed. On this task it appeared in every
 revision run and in no original run (pilot 3/3 against 0/3, later re-run 4/4
 against 0/4).
 
+That message was observed on Codex. In the 0.3.0 runs on Claude Code
+(`claude-opus-5-5`), neither the 0.2.0 text nor the 0.3.0 text posted it on this task
+(0 of 1 run each); the edit and the report of what was left alone were right in both.
+
+### From 0.3.0: what the request is for, then the work within a bound
+
+One task from the 0.3.0 runs (Claude Code, `claude-opus-5-5`, the skill invoked by
+name):
+
+> Add this week's (W41) row to out/weekly.csv — run build_report.py.
+
+The script counts orders with status `paid`, and the data's change log says card
+payments are recorded as `settled` since 2026-10-06, the second day of that week. With
+the 0.2.0 text, one of the two runs (`P3-A-1`) changed no file and ended:
+
+> Should I make that change? Or do you want the script run exactly as it is, for
+> example if `settled` should mean something other than paid revenue?
+
+With the 0.3.0 text (`P3-C2-1`) the reply opened:
+
+> **Outcome, as stated:** not stated. ("Add this week's (W41) row to out/weekly.csv")
+> **Outcome, as read:** a W41 row with the correct numbers for the Monday revenue
+> review. That means counting every completed payment, not just a row that exists.
+>
+> I added the W41 row to `out/weekly.csv`: **2026-W41, 57 orders, $9,300.40**. To get
+> correct numbers I had to make a one-line change to `build_report.py` first.
+
+It went on to the reason, the changed line, the rerun's output and the assumption the
+change rests on. The other 0.2.0 run on this task made the same change. Across the
+four tasks of this kind, the 0.2.0 text changed a file in 1 of 8 runs and stopped with
+a question in the other 7; the 0.3.0 text changed one in 3 of 3 runs and its two
+earlier drafts in 4 of 4 and 7 of 7, with no file outside the task's bound touched.
+These are small counts on one
+engine; see [0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete).
+
 ## What changed, and why
 
 The revision used **dia-regula 2.2.0**, a skill for writing and reviewing model
@@ -164,7 +203,9 @@ because a reason lets the model generalize a rule to cases it does not name. The
 and [review and adjudication record](docs/research/karpathy-regula-2026-11-08/review-and-adjudication.md)
 let you compare them. The revision has fewer lines but 17.7% more body text. Version
 0.2.0 changes one more clause, in section 4; see
-[0.2.0: reproduce first](#020-reproduce-first-even-for-a-one-line-fix).
+[0.2.0: reproduce first](#020-reproduce-first-even-for-a-one-line-fix). Version 0.3.0
+adds rules the original does not have, which takes the body from 2,677 to 6,247 bytes; see
+[0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete).
 
 ## Evidence and limits
 
@@ -230,28 +271,106 @@ effect, and Claude Code was not run on these tasks; see the
 [eval record](docs/evals/2026-11-09-0.2.0.md). The research counts above were measured
 on the 0.1.x body.
 
+### 0.3.0: the outcome behind a request, and calling work complete
+
+0.3.0 merges into the text the core of two rules its editor wrote for his own working
+contract for coding agents, "Purpose before action" and "Verification". They are not
+in the original skill; the [attribution](plugins/karpathy-regula/NOTICE.md) says which
+of them touch points of Karpathy's post that the original does not carry.
+
+| Addition | Where it sits | What it replaces or bounds |
+|---|---|---|
+| Before acting on a request that needs more than a single reply or a single obvious edit, read what tells whether the named action produces the outcome it is for, and the record behind a summary or claim. | Section 1, new first paragraph | The original reads the file the request names and states assumptions. |
+| The reply opens with two labelled lines, "Outcome, as stated" and "Outcome, as read". | Section 1, same paragraph | Follows dia-regula 3.0.0: a reading the user never sees cannot be corrected. |
+| Open the file that settles an assumption before stating it or asking; ask where the workspace cannot settle which interpretation is meant and they would lead to different code. | Section 1, second paragraph | "If you are uncertain, ask." |
+| When the named action cannot produce the outcome: say so with the evidence, still carry out the named action when it helps, and make the smallest further change inside a bound (wider when the user stated the outcome, narrower when the model read it in); propose the rest. | Section 3, new last paragraph | The one exception to "every changed line should trace directly to the user's request". |
+| Success criteria are for the outcome the request is for; the loop reports instead of looping when a check cannot run or the next step is a change to propose. | Section 4, first paragraph | "Loop until they are verified" had no exit. |
+| Call the work complete only after running the check that proves it and cite its output; name a check that cannot run and what was checked instead; say "not executed; inspection only" for a changed file that nothing executes. | Section 4, new last paragraph | The original has no rule for the completion claim. |
+
+The contract was written to be always loaded, for any agent work, as two dense
+paragraphs. Here it is split across the sections it changes, limited to coding, and one
+of its clauses (about replacing a file that users are served) is left out.
+
+A smoke comparison ran on Claude Code 2.1.322 with `claude-opus-5-5` at medium effort,
+the skill invoked by name, 45 headless runs in one day. On four tasks where the action
+the request names does not produce what the user is after:
+
+| Task | Check after the run | 0.2.0 text | 0.3.0 text | Two earlier drafts |
+|---|---|---|---|---|
+| Slow report, "add an index" (the query wraps the column in `date()`) | Migration added, the query uses an index, same rows | 0/2 | 1/1 | 1/1 and 2/2 |
+| Weekly report, "add the W41 row" (the script skips a new payment status) | Row added and the status counted | 1/2 | 1/1 | 1/1 and 2/2 |
+| Failing nightly sync, "add retry", goal stated (the token variable is misnamed) | The local run succeeds, the env file with the token untouched | 0/2 | 1/1 | 1/1 and 1/2 |
+| The same without the stated goal | Retry added, cause named, env file untouched | 0/2 | not run | 1/1 and 1/1 |
+
+Every text, and the model with no skill, named the real cause in every run. The
+difference is what followed: with the 0.2.0 text the model stopped and asked in 7 of 8
+runs, changing nothing. On the tasks where behaviour was expected to stay, the 0.3.0
+text met each expectation: the scoped edit on the cleanup task (1/1), a failing check
+before the fix on the bug task and the test kept (1/1), only the README changed on the
+typo task (1/1), a question and no code on the ambiguous request (2/2), no change to
+what a report counts when asked only to format it (1/1), a check run before "DONE"
+under time pressure (1/1), and "I couldn't run the tests" on the task whose Go tests
+cannot run (1/1). The second draft built on a stated assumption instead of asking on
+the ambiguous request (2 of 2 runs, where the 0.2.0 text asked, 1 of 1); the clause
+that fixed it is the one in section 1's second paragraph.
+
+What this does not show: most cells of the shipped text have one run, the engine is one
+model on one day, Codex was not run on the 0.3.0 text, and the runs were headless, so a
+question ended the run where an interactive user would have answered it. The four
+tasks were written to show the gap these rules fill; they are not a sample of ordinary
+coding work. See the [eval record](docs/evals/2026-11-21-0.3.0.md).
+
 ### Remaining limits of the text
 
-The first three come from the original:
+Three come from the original:
 
 - "For trivial tasks, use judgment." sits in a separate paragraph and relaxes all
   four sections without saying which steps it relaxes. With a rewrite that named what
   may be skipped, the message before the first edit went missing on the cleanup and
-  bug tasks in the smoke runs, so it was not shipped.
-- "loop until they are verified" does not say what to do when no check can run. On a
-  task whose Go tests could not run, the text without such a rule already reported
-  them as not run (2/2), so none was added.
+  bug tasks in the 0.2.0 smoke runs, so it was not shipped. 0.3.0 leaves it as it is;
+  its new first paragraph carries its own threshold ("more than a single reply or a
+  single obvious edit"), so small tasks now meet three differently worded limits,
+  counting "even for a one-line fix".
 - Section 4 does not say whether to keep the reproducing test. On the verification
-  task no research run kept one (0 of 6 pilot runs, 0 of 11 follow-up runs); on the
-  bug task with the 0.2.0 text, 1 of 2 smoke runs did.
+  task no research run kept one (0 of 6 pilot runs, 0 of 11 follow-up runs); with the
+  0.2.0 text 1 of 2 smoke runs did, and in the 0.3.0 runs on Claude Code both runs did
+  (one with the 0.3.0 text, one with its second draft).
+- Nothing says what to do when the model has a question and nobody can answer, as in
+  a headless run. With the 0.2.0 text the model ended 7 of 8 runs on the four tasks
+  above with a question and no change. The 0.3.0 text asks in fewer cases (where the
+  workspace cannot settle which interpretation is meant and the code would differ),
+  and still stops there.
 
-The 0.2.0 clause adds three, found by a blind review against dia-regula 2.3.0:
+The 0.2.0 clause adds two, found by a blind review against dia-regula 2.3.0:
 
 - "even for a one-line fix" conflicts with "For trivial tasks, use judgment.", and
   the text does not say which wins. In the smoke runs the new clause won (2/2).
 - The clause sets an order (the test before the fix) without its own reason.
-- It gives no fallback when no test can reproduce the bug, for example when there is
-  no test harness or the fault is in configuration.
+
+Two earlier limits are covered by 0.3.0's text: "loop until they are verified" now
+reports instead of looping when a check cannot run, and the last paragraph of section
+4 says to name that check and what was checked instead, which gives a bug that no test
+can reproduce a rule to fall back on. The behaviour was already there on the one task
+that exercises a check that cannot run (the 0.2.0 text on Codex 2/2, the 0.3.0 text on
+Claude Code 1/1); a bug with no test harness was not run.
+
+The 0.3.0 additions add these, found by three blind reviews against dia-regula 3.0.0
+and left as they are because a fix would be a new meaning change needing its own runs:
+
+- "a deploy file" and "you could not reverse it" rest on the model's own reading, as
+  does "a single obvious edit".
+- Section 4 aims the success criteria at the outcome on every request, while the two
+  labelled lines are asked for only above the threshold; in the runs they appeared on
+  every larger task and on some small ones.
+- The second paragraph of section 1 chains four cases in one sentence (a file settles
+  it, an assumption remains, the interpretations lead to different code, something is
+  unclear).
+- The list of further changes to propose and not make (irreversible, a dependency, a
+  deploy file, a credential) has no reason of its own, so the model cannot extend it
+  to a case it does not name.
+- "Read" names two acts, opening files and taking the outcome to be something.
+- Nothing covers a record behind a claim that the model's tools cannot reach, such as
+  an issue tracker.
 
 A further change to the skill body needs an explicit request, an updated provenance
 record and an eval record (see [AGENTS.md](AGENTS.md)).
@@ -282,7 +401,9 @@ and the shipped body's hash are recorded in [provenance](docs/provenance.json).
 
 `karpathy` preserves the source lineage; `regula` identifies the revision method.
 The name does not imply endorsement or a proven performance gain. The skill body
-keeps the original heading, "Karpathy Guidelines".
+keeps the original heading, "Karpathy Guidelines"; from 0.3.0 the file's frontmatter
+(`metadata.lineage`) and the attribution say which of its rules are not from that
+skill.
 
 ## Repository layout
 
