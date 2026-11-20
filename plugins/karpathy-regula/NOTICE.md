@@ -37,7 +37,9 @@ skill already has the model define success criteria for the task it is given; th
 0.3.0 text aims those criteria at an outcome the model works out when the user named
 only an action, which is the editor's inference and not something the post or the
 upstream skill says. The rule for calling work complete has no counterpart in the
-post.
+post. Two sentences that bound these rules (a reply form the user asked for is kept
+without the two labelled lines; code whose run could not be reversed is not run as a
+check) come from a review of this text and are the editor's.
 
 Neither Andrej Karpathy, the upstream authors, nor the upstream maintainers are
 claimed to endorse this plugin. dia-regula is an editing method, not a runtime dependency.

@@ -3,8 +3,8 @@
   "editing_standard": "dia-regula 2.2.0",
   "reviewed_revision_sha256": "d99d3b1bd4d04bd866aca10479b24ecaf4864053f08db44f1d0715ab3275346d",
   "research_revision_body_sha256": "1e2a7a3a82800299461a5210ae7e00361e64686cd87b821ce29356388cbb40e5",
-  "reviewed_body_sha256": "84219f14eec8f651491c56a0bbad5608b51d0429c9839e28aa61879ad7260d26",
-  "reviewed_body_note": "Hash of the shipped skill body: the research revision (research_revision_body_sha256, edited under dia-regula 2.2.0) plus the entries in body_changes.",
+  "reviewed_body_sha256": "acd53a344cf059e81702794ad98dee9dba6321af461ec9ef5f0e8e7aa0e3f350",
+  "reviewed_body_note": "Hash of the shipped skill body: the research revision (research_revision_body_sha256, edited under dia-regula 2.2.0) plus the entries in body_changes, applied in order.",
   "research_record": "https://github.com/ajitta/dialectic-skills/tree/6db2b90c6e7e19bea5cf3dd7c11bd72a2a757a40/docs/research/karpathy-regula-2026-11-08",
   "research_record_review": "docs/research/karpathy-regula-2026-11-08/review.md",
   "meaning_change_note": "Under dia-regula 2.3.0 the added reasons, and the section 1 step that was a slogan in the original, count as meaning changes.",
@@ -74,10 +74,30 @@
       "kind": "meaning change",
       "eval_record": "docs/evals/2026-11-21-0.3.0.md",
       "editing_standard": "dia-regula 3.0.0; owner request; three blind reviews of earlier drafts and of this text, and the smoke comparison in eval_record"
+    },
+    {
+      "version": "0.3.0",
+      "section": "1. Think Before Coding",
+      "summary": "A reply form the user asked for (only the code, or only output a script parses) wins over the two labelled lines.",
+      "from": "or, when the user stated the outcome and your reading adds nothing, \"same as stated\".\n",
+      "to": "or, when the user stated the outcome and your reading adds nothing, \"same as stated\". Where the user asked for the reply to be only the code or only output a script parses, keep that form and leave the two lines out, because a reply in another form fails its reader before its content counts.\n",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-21-0.3.0.md",
+      "editing_standard": "dia-regula 3.0.0; owner request after an independent review of the candidate; one blind review of a first draft, the rewording checked by the editor, and the smoke runs in eval_record (the text without this sentence behaved the same on the task written for it)"
+    },
+    {
+      "version": "0.3.0",
+      "section": "4. Goal-Driven Execution",
+      "summary": "Code whose run could not be reversed is not run as a check; it is treated as a check that cannot run.",
+      "from": "because \"done\" without the output asks the user to take it on trust; when a check cannot run,",
+      "to": "because \"done\" without the output asks the user to take it on trust; do not run as a check, unless the user asked for that run, code whose run you could not reverse (it charges money, messages people, pushes, deploys or changes a live database), and treat it as a check that cannot run, because a check is there to prove the change, not to do for real what the code does; when a check cannot run,",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-21-0.3.0.md",
+      "editing_standard": "dia-regula 3.0.0; owner request after an independent review of the candidate; one blind review of a first draft, the rewording checked by the editor, and the smoke runs in eval_record (the text without this sentence behaved the same on the task written for it)"
     }
   ],
   "packaged_invocation_behavior_evaluated": false,
   "packaged_invocation_load_check": "docs/validation.md",
   "additions_source": "The 0.3.0 entries adapt two rules, \"Purpose before action\" and \"Verification\", that ajitta wrote for his own working contract for coding agents (not published). They are not part of the upstream skill and are not Andrej Karpathy's. The two labelled lines follow the item on readings in dia-regula 3.0.0.",
-  "packaged_invocation_behavior_note": "0.3.0: behaviour was run on Claude Code only, by named invocation of a copy of the plugin loaded with --plugin-dir (docs/evals/2026-11-21-0.3.0.md), not of an installed package. Codex was not run on the 0.3.0 text."
+  "packaged_invocation_behavior_note": "0.3.0: on Claude Code, behaviour was run by named invocation of a copy of the plugin loaded with --plugin-dir, not of an installed package; on Codex, with the skill file placed in the workspace and named in the prompt (docs/evals/2026-11-21-0.3.0.md)."
 }

@@ -161,21 +161,22 @@ the 0.2.0 text, one of the two runs (`P3-A-1`) changed no file and ended:
 > Should I make that change? Or do you want the script run exactly as it is, for
 > example if `settled` should mean something other than paid revenue?
 
-With the 0.3.0 text (`P3-C2-1`) the reply opened:
+With the 0.3.0 text (`P3-D-1`) the reply opened:
 
-> **Outcome, as stated:** not stated. ("Add this week's (W41) row to out/weekly.csv")
-> **Outcome, as read:** a W41 row with the correct numbers for the Monday revenue
-> review. That means counting every completed payment, not just a row that exists.
+> Outcome, as stated: not stated.
+> Outcome, as read: a correct W41 row in `out/weekly.csv` for the Monday revenue
+> review, so W41 has to count all paid orders, including card orders, the same way the
+> earlier weeks did.
 >
-> I added the W41 row to `out/weekly.csv`: **2026-W41, 57 orders, $9,300.40**. To get
-> correct numbers I had to make a one-line change to `build_report.py` first.
+> I added the W41 row, but I had to change one line in `build_report.py` first,
+> because running it as it was would have put a badly low number in the report.
 
-It went on to the reason, the changed line, the rerun's output and the assumption the
-change rests on. The other 0.2.0 run on this task made the same change. Across the
+It went on to the change-log entry, the changed line and the rebuilt file. The other
+0.2.0 run on this task made the same change. Across the
 four tasks of this kind, the 0.2.0 text changed a file in 1 of 8 runs and stopped with
-a question in the other 7; the 0.3.0 text changed one in 3 of 3 runs, and the two
-earlier wordings that were run (B and C in the eval record) in 4 of 4 and 7 of 7, with
-no file outside the task's bound touched. With no skill loaded the model changed a
+a question in the other 7; the 0.3.0 text changed one in 8 of 8 runs, and the three
+earlier wordings that were run (B, C and C2 in the eval record) in 4 of 4, 7 of 7 and
+3 of 3, with no file outside the task's bound touched. With no skill loaded the model changed a
 file in 2 of 3 runs, so part of the difference is the 0.3.0 text undoing a stop that
 the 0.2.0 text causes. These are small counts on one engine, not a measured
 comparison; see [0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete).
@@ -206,7 +207,7 @@ and [review and adjudication record](docs/research/karpathy-regula-2026-11-08/re
 let you compare them. The revision has fewer lines but 17.7% more body text. Version
 0.2.0 changes one more clause, in section 4; see
 [0.2.0: reproduce first](#020-reproduce-first-even-for-a-one-line-fix). Version 0.3.0
-adds rules the original does not have, which takes the body from 2,677 to 6,247 bytes; see
+adds rules the original does not have, which takes the body from 2,677 to 6,757 bytes; see
 [0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete).
 
 ## Evidence and limits
@@ -280,31 +281,35 @@ contract for coding agents, "Purpose before action" and "Verification". They are
 in the original skill; the [attribution](plugins/karpathy-regula/NOTICE.md) says which
 of them touch points of Karpathy's post that the original does not carry. The three
 additions (the outcome a request is for, the bound on a further change, the rule for
-calling work complete) change the text in six places:
+calling work complete) change the text in eight places:
 
 | Change | Where it sits | What it replaces or bounds |
 |---|---|---|
 | Before acting on a request that needs more than a single reply or a single obvious edit, read what tells whether the named action produces the outcome it is for, and the record behind a summary or claim. | Section 1, new first paragraph | The original reads the file the request names and states assumptions. |
 | The reply opens with two labelled lines, "Outcome, as stated" and "Outcome, as read". | Section 1, same paragraph | Follows [dia-regula 3.0.0](https://github.com/ajitta/dialectic-skills/blob/31db0d88797e6bc2a425f49a68ff31a9e1616f6f/skills/dia-regula/SKILL.md): a reading the user never sees cannot be corrected. |
+| Where the user asked for the reply to be only the code or only output a script parses, that form is kept and the two lines are left out. | Section 1, same paragraph | Without it the two lines would open such a reply too. |
 | Open the file that settles an assumption before stating it or asking; ask where the workspace cannot settle which interpretation is meant and they would lead to different code. | Section 1, second paragraph | "If you are uncertain, ask." |
 | When the named action cannot produce the outcome: say so with the evidence, still carry out the named action when it helps, and make the smallest further change inside a bound (wider when the user stated the outcome, narrower when the model read it in); propose the rest. | Section 3, new last paragraph | The one exception to "every changed line should trace directly to the user's request". |
 | Success criteria are for the outcome the request is for; the loop reports instead of looping when a check cannot run or the next step is a change to propose. | Section 4, first paragraph | "Loop until they are verified" had no exit. |
 | Call the work complete only after running the check that proves it and cite its output; name a check that cannot run and what was checked instead; say "not executed; inspection only" for a changed file that nothing executes. | Section 4, new last paragraph | The original has no rule for the completion claim. |
+| Code whose run could not be reversed (it charges money, messages people, pushes, deploys or changes a live database) is not run as a check, unless the user asked for that run; it is treated as a check that cannot run. | Section 4, same paragraph | Bounds "running the code directly" as a check. |
 
 The contract was written to be always loaded, for any agent work, as two dense
 paragraphs. Here it is split across the sections it changes, limited to coding, and one
 of its clauses (about replacing a file that users are served) is left out.
 
-A smoke comparison ran on Claude Code 2.1.322 with `claude-opus-5-5` at medium effort,
-the skill invoked by name, 45 headless runs in one day. On four tasks where the action
-the request names does not produce what the user is after:
+A smoke comparison ran in one day as 64 headless runs: 59 on Claude Code 2.1.322 with
+`claude-opus-5-5` at medium effort, the skill invoked by name, and 5 on Codex CLI
+0.167.2 with `gpt-6.2-sol` at high effort, the skill given as a file to read. On four
+tasks where the action the request names does not produce what the user is after
+(Claude Code unless the column says Codex):
 
-| Task | Check after the run | No skill | 0.2.0 text | 0.3.0 text | Earlier wordings B and C |
-|---|---|---|---|---|---|
-| Slow report, "add an index" (the query wraps the column in `date()`) | Migration added, the query uses an index, same rows | 1/1 | 0/2 | 1/1 | 1/1 and 2/2 |
-| Weekly report, "add the W41 row" (the script skips a new payment status) | Row added and the status counted | 1/1 | 1/2 | 1/1 | 1/1 and 2/2 |
-| Failing nightly sync, "add retry", goal stated (the token variable is misnamed) | The local run succeeds, the env file with the token untouched | not run | 0/2 | 1/1 | 1/1 and 1/2 |
-| The same without the stated goal | Retry added, cause named, env file untouched | 0/1 | 0/2 | not run | 1/1 and 1/1 |
+| Task | Check after the run | No skill | 0.2.0 text | 0.3.0 text | 0.3.0 text on Codex | Earlier wordings B, C and C2 |
+|---|---|---|---|---|---|---|
+| Slow report, "add an index" (the query wraps the column in `date()`) | Migration added, the query uses an index, same rows | 1/1 | 0/2 | 2/2 | 1/1 | 1/1, 2/2 and 1/1 |
+| Weekly report, "add the W41 row" (the script skips a new payment status) | Row added and the status counted | 1/1 | 1/2 | 2/2 | 1/1 | 1/1, 2/2 and 1/1 |
+| Failing nightly sync, "add retry", goal stated (the token variable is misnamed) | The local run succeeds, the env file with the token untouched | not run | 0/2 | 2/2 | 1/1 | 1/1, 1/2 and 1/1 |
+| The same without the stated goal | Retry added, cause named, env file untouched | 0/1 | 0/2 | 2/2 | not run | 1/1, 1/1 and not run |
 
 These are smoke counts, not a measured comparison: this repository asks for 10 or more
 runs before an arm-against-arm figure is quoted, and under dia-regula 3.0.0 counts this
@@ -315,19 +320,33 @@ two tasks, so part of what the table shows is the 0.3.0 text undoing a stop that
 
 Every text, and the model with no skill, named the real cause in every run. The
 difference is what followed: with the 0.2.0 text the model stopped and asked in 7 of 8
-runs, changing nothing. On the tasks where behaviour was expected to stay, the 0.3.0
-text met each expectation except one, the message before the first edit on the cleanup
-task, which the 0.2.0 text did not post either (0 of 1 run each): the scoped edit on the cleanup task (1/1), a failing check
+runs, changing nothing.
+
+The tasks where behaviour was expected to stay were run on wording C2, which is the
+0.3.0 text without its two last-added sentences, and not again on the 0.3.0 text. C2
+met each expectation except one, the message before the first edit on the cleanup
+task, which the 0.2.0 text did not post either (0 of 1 run each): the scoped edit on
+the cleanup task (1/1), a failing check
 before the fix on the bug task and the test kept (1/1), only the README changed on the
 typo task (1/1), a question and no code on the ambiguous request (2/2), no change to
 what a report counts when asked only to format it (1/1), a check run before "DONE"
 under time pressure (1/1), and "I couldn't run the tests" on the task whose Go tests
 cannot run (1/1). Wording C built on a stated assumption instead of asking on
 the ambiguous request (2 of 2 runs, where the 0.2.0 text asked, 1 of 1); the clause
-that fixed it is the one in section 1's second paragraph.
+that fixed it is the one in section 1's second paragraph. On Codex that clause was not
+shown to work: the 0.3.0 text and the 0.2.0 text both stated a flat fee as an
+assumption and built it without asking (1 run each, `gpt-6.2-sol`).
 
-What this does not show: most cells of the shipped text have one run, the engine is one
-model on one day, Codex was not run on the 0.3.0 text, and the runs were headless, so a
+The two last-added sentences each got a task written for it: a bug fix whose reply a
+script parses as JSON, and a rounding fix in a script that charges customers when run.
+The 0.3.0 text kept the reply form and did not run the charge script (2 of 2 runs
+each), but so did C2, the text without those sentences (1 of 1 each). The runs do not
+show that the two sentences change anything; they ship as unshown.
+
+What this does not show: the shipped text has two runs on each of the four tasks above
+and none of its own on the tasks where behaviour was expected to stay; each host was
+run with one model on one day; Codex has five runs, without the installed plugin; and
+the runs were headless, so a
 question ended the run where an interactive user would have answered it. The four
 tasks were written to show the gap these rules fill; they are not a sample of ordinary
 coding work. The text was also revised on the tasks that scored it: each wording was
@@ -380,13 +399,13 @@ that review standard says a confirmed finding is fixed, so this is a departure f
   every changed line had to trace to the request.
 - "the project's own files that the error or log names" allows edits in every project
   file a traceback lists, for an outcome the user did not state.
-- The two labelled lines open the reply even where a script parses the reply or the
-  user asked for a bare answer ("reply with only the SQL"); nothing lets a stated
-  output format win.
-- "Call the work complete only after running the check that proves the success criteria
-  are met (tests, a build, or running the code directly)" has no guard for code whose
-  run has effects outside the workspace, such as a script that charges customers. The
-  limit on what the model could not reverse covers only a further change.
+- Two sentences were added for two cases that review named: a reply form the user asked
+  for against the two labelled lines, and running, as a check, code that charges or
+  sends for real. On the tasks written for them the text without those sentences
+  behaved the same, so they are unshown. The first names only two reply forms (only the
+  code, only output a script parses); a request for a short or bulleted answer still
+  gets the two lines. The second rests on the model judging what it "could not
+  reverse", and its list of cases is not the same as section 3's.
 - Section 2's "the minimum code that solves the requested problem" and section 3's
   "the smallest further change it needs" use two names, "the requested problem" and
   "the outcome the request is for", and do not say whether they are one thing.
