@@ -6,8 +6,8 @@
     {
       "name": "karpathy-regula",
       "source": "./plugins/karpathy-regula",
-      "description": "Karpathy's coding guidelines, revised with dia-regula.",
-      "version": "0.2.0"
+      "description": "Karpathy's coding guidelines, revised with dia-regula, plus rules on a request's outcome and verified completion.",
+      "version": "0.3.0"
     }
   ]
 }

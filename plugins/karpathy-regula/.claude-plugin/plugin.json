@@ -1,7 +1,7 @@
 {
   "name": "karpathy-regula",
-  "version": "0.2.0",
-  "description": "Karpathy's coding guidelines, revised with dia-regula.",
+  "version": "0.3.0",
+  "description": "Karpathy's coding guidelines, revised with dia-regula, plus rules on a request's outcome and verified completion.",
   "author": { "name": "ajitta" },
   "repository": "https://github.com/ajitta/karpathy-regula",
   "license": "MIT"

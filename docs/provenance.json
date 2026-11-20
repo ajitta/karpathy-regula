@@ -3,8 +3,8 @@
   "editing_standard": "dia-regula 2.2.0",
   "reviewed_revision_sha256": "d99d3b1bd4d04bd866aca10479b24ecaf4864053f08db44f1d0715ab3275346d",
   "research_revision_body_sha256": "1e2a7a3a82800299461a5210ae7e00361e64686cd87b821ce29356388cbb40e5",
-  "reviewed_body_sha256": "3e9317be30ae2d842f5847c0b0cf0391c885bb2767c53742a2b2f6098f996844",
-  "reviewed_body_note": "Hash of the shipped skill body: the research revision (research_revision_body_sha256, edited under dia-regula 2.2.0) plus the entries in body_changes.",
+  "reviewed_body_sha256": "acd53a344cf059e81702794ad98dee9dba6321af461ec9ef5f0e8e7aa0e3f350",
+  "reviewed_body_note": "Hash of the shipped skill body: the research revision (research_revision_body_sha256, edited under dia-regula 2.2.0) plus the entries in body_changes, applied in order.",
   "research_record": "https://github.com/ajitta/dialectic-skills/tree/6db2b90c6e7e19bea5cf3dd7c11bd72a2a757a40/docs/research/karpathy-regula-2026-11-08",
   "research_record_review": "docs/research/karpathy-regula-2026-11-08/review.md",
   "meaning_change_note": "Under dia-regula 2.3.0 the added reasons, and the section 1 step that was a slogan in the original, count as meaning changes.",
@@ -24,8 +24,80 @@
       "kind": "meaning change",
       "eval_record": "docs/evals/2026-11-09-0.2.0.md",
       "editing_standard": "none; owner request, checked by a blind dia-regula 2.3.0 review and the smoke comparison in eval_record"
+    },
+    {
+      "version": "0.3.0",
+      "section": "1. Think Before Coding",
+      "summary": "New first paragraph (read the evidence and the record behind a claim; the reply opens with \"Outcome, as stated\" and \"Outcome, as read\"); the assumptions paragraph opens a file before stating or asking, and asks where the workspace cannot settle which interpretation is meant.",
+      "from": "## 1. Think Before Coding\n\nBefore implementing, state your assumptions explicitly and present multiple interpretations when they exist rather than picking silently, because hidden assumptions can lead to solving the wrong problem; if you are uncertain, ask, and if something is unclear, stop, name what is confusing, and ask.",
+      "to": "## 1. Think Before Coding\n\nA request names an action, and the outcome the action is for is usually unstated, so before acting on a request that needs more than a single reply or a single obvious edit, read what tells whether the named action produces that outcome (the log, the config the error names, the sibling file the request refers to), not only the file the request names, and where the request rests on a summary or a claim (a bug report, a changelog line, a status message), read the record behind it before building on it, because a change that does exactly what was asked can still leave the outcome unreached. The reply that reports your work on such a request, or that stops to ask about it, opens with two labelled lines, kept apart from any text meant to be committed or sent on, because a reading the user sees can be corrected and one they never see cannot: \"Outcome, as stated:\" with the user's words for the outcome, quoted, or \"not stated\", then \"Outcome, as read:\" with, in one line, the outcome you take the named action to be for and what that adds to or narrows in the user's words, or, when the user stated the outcome and your reading adds nothing, \"same as stated\".\n\nBefore implementing, open the file that settles any assumption or doubt you would otherwise only mention, reading the workspace's top-level README or listing its folders first when you do not know which file that is, then state explicitly the assumptions that remain and present multiple interpretations when they exist rather than picking silently, because hidden assumptions can lead to solving the wrong problem, and an assumption a file can settle is a fact to check rather than a question for the user; where the workspace cannot settle which interpretation is meant and they would lead to different code, ask before implementing instead of building on one, since a pick you state is still your pick, and if something is unclear, stop, name what is confusing, and ask.",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-21-0.3.0.md",
+      "editing_standard": "dia-regula 3.0.0; owner request; three blind reviews of earlier drafts and of this text, and the smoke comparison in eval_record"
+    },
+    {
+      "version": "0.3.0",
+      "section": "3. Surgical Changes",
+      "summary": "The trace test names its one exception.",
+      "from": "every changed line should trace directly to the user's request.",
+      "to": "every changed line should trace directly to the user's request, or to the outcome the request is for where the last paragraph of this section allows a further change.",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-21-0.3.0.md",
+      "editing_standard": "dia-regula 3.0.0; owner request; three blind reviews of earlier drafts and of this text, and the smoke comparison in eval_record"
+    },
+    {
+      "version": "0.3.0",
+      "section": "3. Surgical Changes",
+      "summary": "New last paragraph with two cases: when the named action cannot produce the outcome, report it, still carry out the named action when it helps, and bound the further change.",
+      "from": "because its removal would extend the change beyond the request.",
+      "to": "because its removal would extend the change beyond the request.\n\nWhen what you read shows that the named action cannot produce the outcome it is for, say so with the evidence, still carry out the named action when it helps toward that outcome and say so when you leave it undone, and treat what the evidence has settled as a finding you report with the work, not a question to stop on, because a correct change in the wrong place leaves the outcome unreached; a further change the outcome needs is proposed with the evidence, not made, when you could not reverse it (a push, a deploy, a change to a live database), when it edits an installed or vendored dependency, or when it edits a deploy file or a file holding a credential or secret, and how far it may otherwise go depends on who stated the outcome, because the user has asked for an outcome they stated and has not confirmed one you read in:\n\n- **The user stated the outcome:** make the smallest further change it needs.\n- **You read the outcome in, or read more into it than the user's words state:** make the smallest further change only inside the files the request names, the files the named action itself edits and the project's own files that the error or log names, and propose any change beyond those files with the evidence.",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-21-0.3.0.md",
+      "editing_standard": "dia-regula 3.0.0; owner request; three blind reviews of earlier drafts and of this text, and the smoke comparison in eval_record"
+    },
+    {
+      "version": "0.3.0",
+      "section": "4. Goal-Driven Execution",
+      "summary": "Success criteria are for the outcome the request is for; the loop reports instead of looping when a check cannot run or the next step is a change to propose.",
+      "from": "Define verifiable success criteria and loop until they are verified,",
+      "to": "Define verifiable success criteria for the outcome the request is for and loop until they are verified, reporting instead of looping when a check cannot run or the next step is a change section 3 has you propose,",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-21-0.3.0.md",
+      "editing_standard": "dia-regula 3.0.0; owner request; three blind reviews of earlier drafts and of this text, and the smoke comparison in eval_record"
+    },
+    {
+      "version": "0.3.0",
+      "section": "4. Goal-Driven Execution",
+      "summary": "New last paragraph: call the work complete only after running the check and citing its output; name a check that cannot run; \"not executed; inspection only\" for a changed file that nothing executes.",
+      "from": "3. [Step] → verify: [check]\n```",
+      "to": "3. [Step] → verify: [check]\n```\n\nCall the work complete only after running the check that proves the success criteria are met (tests, a build, or running the code directly) and cite its output, because \"done\" without the output asks the user to take it on trust; when a check cannot run, name it and why and say what you checked instead rather than calling the criteria verified, and for a changed file that nothing executes, such as documentation, say \"not executed; inspection only\".",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-21-0.3.0.md",
+      "editing_standard": "dia-regula 3.0.0; owner request; three blind reviews of earlier drafts and of this text, and the smoke comparison in eval_record"
+    },
+    {
+      "version": "0.3.0",
+      "section": "1. Think Before Coding",
+      "summary": "A reply form the user asked for (only the code, or only output a script parses) wins over the two labelled lines.",
+      "from": "or, when the user stated the outcome and your reading adds nothing, \"same as stated\".\n",
+      "to": "or, when the user stated the outcome and your reading adds nothing, \"same as stated\". Where the user asked for the reply to be only the code or only output a script parses, keep that form and leave the two lines out, because a reply in another form fails its reader before its content counts.\n",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-21-0.3.0.md",
+      "editing_standard": "dia-regula 3.0.0; owner request after an independent review of the candidate; one blind review of a first draft, the rewording checked by the editor, and the smoke runs in eval_record (the text without this sentence behaved the same on the task written for it)"
+    },
+    {
+      "version": "0.3.0",
+      "section": "4. Goal-Driven Execution",
+      "summary": "Code whose run could not be reversed is not run as a check; it is treated as a check that cannot run.",
+      "from": "because \"done\" without the output asks the user to take it on trust; when a check cannot run,",
+      "to": "because \"done\" without the output asks the user to take it on trust; do not run as a check, unless the user asked for that run, code whose run you could not reverse (it charges money, messages people, pushes, deploys or changes a live database), and treat it as a check that cannot run, because a check is there to prove the change, not to do for real what the code does; when a check cannot run,",
+      "kind": "meaning change",
+      "eval_record": "docs/evals/2026-11-21-0.3.0.md",
+      "editing_standard": "dia-regula 3.0.0; owner request after an independent review of the candidate; one blind review of a first draft, the rewording checked by the editor, and the smoke runs in eval_record (the text without this sentence behaved the same on the task written for it)"
     }
   ],
   "packaged_invocation_behavior_evaluated": false,
-  "packaged_invocation_load_check": "docs/validation.md"
+  "packaged_invocation_load_check": "docs/validation.md",
+  "additions_source": "The 0.3.0 entries adapt two rules, \"Purpose before action\" and \"Verification\", that ajitta wrote for his own working contract for coding agents (not published). They are not part of the upstream skill and are not Andrej Karpathy's. The two labelled lines follow the item on readings in dia-regula 3.0.0.",
+  "packaged_invocation_behavior_note": "0.3.0: on Claude Code, behaviour was run by named invocation of a copy of the plugin loaded with --plugin-dir, not of an installed package; on Codex, with the skill file placed in the workspace and named in the prompt (docs/evals/2026-11-21-0.3.0.md)."
 }
