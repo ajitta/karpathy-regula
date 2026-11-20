@@ -2,8 +2,21 @@
 
 These are package, install and loading checks, not behavioral evaluations of the
 coding guidelines. The body changes were measured separately; see
+[docs/evals/2026-11-21-0.3.1.md](evals/2026-11-21-0.3.1.md),
 [docs/evals/2026-11-21-0.3.0.md](evals/2026-11-21-0.3.0.md) and
 [docs/evals/2026-11-09-0.2.0.md](evals/2026-11-09-0.2.0.md).
+
+## 0.3.1 (2026-11-21)
+
+| Check | Result |
+|---|---|
+| Python package tests and `package.py --check` | 9 passed; check passed with the new body hash in `docs/provenance.json` |
+| Reproducible ZIP | The same SHA-256 from Python 3.12, 3.13 and 3.14 |
+| Claude Code 2.1.322 | `--strict` validation of the plugin and of the marketplace passed (missing-icon advisory only) |
+| Named invocation | Claude Code: in the eval record's runs, `/karpathy-regula:coding-guidelines` with `--plugin-dir` loaded the intended body in 22 of 22 runs (`claude-opus-5-5`), read from each session's transcript; 5 of them loaded the shipped body |
+
+Install and update checks on the GitHub route are made after the merge and recorded
+here then.
 
 ## 0.3.0 (2026-11-21)
 
