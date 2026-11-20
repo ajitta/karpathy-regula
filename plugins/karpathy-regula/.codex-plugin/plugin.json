@@ -1,7 +1,7 @@
 {
   "name": "karpathy-regula",
-  "version": "0.2.0",
-  "description": "Karpathy's coding guidelines, revised with dia-regula.",
+  "version": "0.3.0",
+  "description": "Karpathy's coding guidelines, revised with dia-regula, plus rules on a request's outcome and verified completion.",
   "author": { "name": "ajitta" },
   "repository": "https://github.com/ajitta/karpathy-regula",
   "license": "MIT",
@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "Karpathy Regula",
     "shortDescription": "Think, scope, code, verify",
-    "longDescription": "Coding guidelines for explicit assumptions, minimal implementations, scoped changes, and verifiable goals. An unofficial Regula revision of the public Karpathy Guidelines skill.",
+    "longDescription": "Coding guidelines for explicit assumptions, minimal implementations, scoped changes, and verifiable goals. An unofficial Regula revision of the public Karpathy Guidelines skill, with added rules, not from that skill, on the outcome a request is for and on calling work complete.",
     "developerName": "ajitta",
     "category": "Productivity",
     "capabilities": [],

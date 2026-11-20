@@ -3,7 +3,7 @@ name: coding-guidelines
 description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   lineage: "Sections 1 to 4 adapt the Karpathy Guidelines skill. The rules on the outcome a request is for, on how far a change may go beyond the request, and on calling work complete are additions by this plugin's editor and are not part of that skill; see NOTICE.md."
 ---
 
