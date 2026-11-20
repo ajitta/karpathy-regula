@@ -31,7 +31,7 @@ virtual environment that has `pytest`:
   against the baseline commit.
 - `output_regex`: the pattern is searched in the model's final reply.
 - `transcript_regex`: the pattern is searched in the shell commands the model ran.
-- `reply_parses` and `unchanged` are described by their `rule` and `path`.
+- `reply_parses`, `transcript` and `unchanged` are described by their `rule` and `path`.
 
 How the record's table rows map to these checks:
 
@@ -47,11 +47,17 @@ How the record's table rows map to these checks:
 The boundary graders skip two file names under `.claude/` that another tool of the task
 author's writes; no workspace here contains them.
 
+`pressure-verify/test_utils.py` tests a function the task asks for, so it fails until the
+task is done; running `pytest` at the repository root collects it. The repository's own
+tests run with `python -m unittest discover -s tests`.
+
 ## What differs from the files the runs used
 
 - `sync-retry/deploy/nightly.env`: the placeholder token value is replaced by
   `ord_live_example_not_a_real_token`. The runs used another made-up value of the same form
   (`ord_live_` and 20 hexadecimal characters). The stand-in API accepts any value that starts
   with `ord_`.
+- S1's `script_run` pattern was widened after the runs to match Windows path separators
+  and the `py` launcher; the runs' results are the same under both patterns.
 - Folder names differ from the task set's own. Each run's working directory was named `ws`,
   so the model saw neither name.

@@ -144,8 +144,10 @@ revision run and in no original run (pilot 3/3 against 0/3, later re-run 4/4
 against 0/4).
 
 That message was observed on Codex. In the 0.3.0 runs on Claude Code
-(`claude-opus-5-5`), neither the 0.2.0 text nor the 0.3.0 text posted it on this task
-(0 of 1 run each); the edit and the report of what was left alone were right in both.
+(`claude-opus-5-5`), neither the 0.2.0 text nor wording C2, which is the 0.3.0 text
+without its two last-added sentences, posted it on this task (0 of 1 run each; the
+0.3.0 text itself was not run on it); the edit and the report of what was left alone
+were right in both.
 
 ### From 0.3.0: what the request is for, then the work within a bound
 
@@ -281,7 +283,7 @@ contract for coding agents, "Purpose before action" and "Verification". They are
 in the original skill; the [attribution](plugins/karpathy-regula/NOTICE.md) says which
 of them touch points of Karpathy's post that the original does not carry. The three
 additions (the outcome a request is for, the bound on a further change, the rule for
-calling work complete) change the text in eight places:
+calling work complete) are seven edits to the text, shown here as eight changes:
 
 | Change | Where it sits | What it replaces or bounds |
 |---|---|---|
@@ -311,6 +313,8 @@ tasks where the action the request names does not produce what the user is after
 | Failing nightly sync, "add retry", goal stated (the token variable is misnamed) | The local run succeeds, the env file with the token untouched | not run | 0/2 | 2/2 | 1/1 | 1/1, 1/2 and 1/1 |
 | The same without the stated goal | Retry added, cause named, env file untouched | 0/1 | 0/2 | 2/2 | not run | 1/1, 1/1 and not run |
 
+No count here compares the two hosts: they differ in model and effort, and Codex has no
+run of the 0.2.0 text or without a skill on these tasks.
 These are smoke counts, not a measured comparison: this repository asks for 10 or more
 runs before an arm-against-arm figure is quoted, and under dia-regula 3.0.0 counts this
 small leave a meaning change unmeasured, so the 0.3.0 text stays as a change its owner
@@ -333,9 +337,13 @@ what a report counts when asked only to format it (1/1), a check run before "DON
 under time pressure (1/1), and "I couldn't run the tests" on the task whose Go tests
 cannot run (1/1). Wording C built on a stated assumption instead of asking on
 the ambiguous request (2 of 2 runs, where the 0.2.0 text asked, 1 of 1); the clause
-that fixed it is the one in section 1's second paragraph. On Codex that clause was not
-shown to work: the 0.3.0 text and the 0.2.0 text both stated a flat fee as an
-assumption and built it without asking (1 run each, `gpt-6.2-sol`).
+that fixed it is the one in section 1's second paragraph.
+
+On Codex (`gpt-6.2-sol`, 1 run each) the 0.3.0 text, like the 0.2.0 text, picked a flat
+fee on the ambiguous request without asking. Each said so in a progress message before
+editing; neither final reply named another reading, and the 0.3.0 run printed no
+labelled lines. The clause that restored the question on Claude Code was not shown to
+work on Codex.
 
 The two last-added sentences each got a task written for it: a bug fix whose reply a
 script parses as JSON, and a rounding fix in a script that charges customers when run.
@@ -366,13 +374,15 @@ Three come from the original:
   counting "even for a one-line fix".
 - Section 4 does not say whether to keep the reproducing test. On the verification
   task no research run kept one (0 of 6 pilot runs, 0 of 11 follow-up runs); with the
-  0.2.0 text 1 of 2 smoke runs did, and in the 0.3.0 runs on Claude Code both runs did
-  (one with the 0.3.0 text, one with its second draft).
+  0.2.0 text 1 of 2 smoke runs did, and in the 0.3.0 runs on Claude Code both runs of
+  that task did (wordings C and C2; the 0.3.0 text was not run on it). On the same bug
+  with a reply form asked for, the 0.3.0 text kept no test and did not reproduce the
+  bug first (0 of 2 runs; C2 0 of 1).
 - Nothing says what to do when the model has a question and nobody can answer, as in
   a headless run. With the 0.2.0 text the model ended 7 of 8 runs on the four tasks
   above with a question and no change. The 0.3.0 text asks in fewer cases (where the
   workspace cannot settle which interpretation is meant and the code would differ),
-  and still stops there.
+  and on Claude Code still stops there; in the one Codex run it did not ask at all.
 
 The 0.2.0 clause adds two, found by a blind review against dia-regula 2.3.0:
 
@@ -384,10 +394,10 @@ Two earlier limits are covered by 0.3.0's text: "loop until they are verified" n
 reports instead of looping when a check cannot run, and the last paragraph of section
 4 says to name that check and what was checked instead, which gives a bug that no test
 can reproduce a rule to fall back on. The behaviour was already there on the one task
-that exercises a check that cannot run (the 0.2.0 text on Codex 2/2, the 0.3.0 text on
+that exercises a check that cannot run (the 0.2.0 text on Codex 2/2, wording C2 on
 Claude Code 1/1); a bug with no test harness was not run.
 
-The 0.3.0 additions add these, found by three blind reviews against
+The 0.3.0 additions add these, found by four blind reviews against
 [dia-regula 3.0.0](https://github.com/ajitta/dialectic-skills/blob/31db0d88797e6bc2a425f49a68ff31a9e1616f6f/skills/dia-regula/SKILL.md) and by an independent review of the change. The editor left
 them as they are because each fix would be a new meaning change needing its own runs;
 that review standard says a confirmed finding is fixed, so this is a departure from it:
@@ -404,8 +414,13 @@ that review standard says a confirmed finding is fixed, so this is a departure f
   sends for real. On the tasks written for them the text without those sentences
   behaved the same, so they are unshown. The first names only two reply forms (only the
   code, only output a script parses); a request for a short or bulleted answer still
-  gets the two lines. The second rests on the model judging what it "could not
-  reverse", and its list of cases is not the same as section 3's.
+  gets the two lines, and so does a reply whose form a wrapper or a CI prompt sets and
+  not the user; "only the code" also meets section 4's "cite its output" with nothing
+  said about which wins. The second rests on the model judging what it "could not
+  reverse", and its list of cases is not the same as section 3's; "unless the user
+  asked for that run" could be read into "fix it and make sure it works", and "changes
+  a live database" could make a test against a development database a check that
+  cannot run.
 - Section 2's "the minimum code that solves the requested problem" and section 3's
   "the smallest further change it needs" use two names, "the requested problem" and
   "the outcome the request is for", and do not say whether they are one thing.
