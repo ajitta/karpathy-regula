@@ -76,8 +76,8 @@
       "editing_standard": "dia-regula 3.0.0; owner request; three blind reviews of earlier drafts and of this text, and the smoke comparison in eval_record"
     }
   ],
-  "packaged_invocation_behavior_evaluated": true,
+  "packaged_invocation_behavior_evaluated": false,
   "packaged_invocation_load_check": "docs/validation.md",
   "additions_source": "The 0.3.0 entries adapt two rules, \"Purpose before action\" and \"Verification\", that ajitta wrote for his own working contract for coding agents (not published). They are not part of the upstream skill and are not Andrej Karpathy's. The two labelled lines follow the item on readings in dia-regula 3.0.0.",
-  "packaged_invocation_behavior_note": "0.3.0: Claude Code only, named invocation of the plugin loaded with --plugin-dir (docs/evals/2026-11-21-0.3.0.md). Codex was not run on the 0.3.0 text."
+  "packaged_invocation_behavior_note": "0.3.0: behaviour was run on Claude Code only, by named invocation of a copy of the plugin loaded with --plugin-dir (docs/evals/2026-11-21-0.3.0.md), not of an installed package. Codex was not run on the 0.3.0 text."
 }

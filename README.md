@@ -2,7 +2,7 @@
 
 Karpathy's coding guidelines for Claude Code and Codex, rewritten so that each
 instruction keeps its condition, its action and its reason together (one clause added
-in 0.2.0 still lacks its own reason; see
+in 0.2.0 and one list added in 0.3.0 still lack their own reason; see
 [Remaining limits](#remaining-limits-of-the-text)). Both hosts
 load one shared English skill, `coding-guidelines`, with four principles: think
 before coding, keep implementations simple, make scoped changes, and define
@@ -173,10 +173,12 @@ With the 0.3.0 text (`P3-C2-1`) the reply opened:
 It went on to the reason, the changed line, the rerun's output and the assumption the
 change rests on. The other 0.2.0 run on this task made the same change. Across the
 four tasks of this kind, the 0.2.0 text changed a file in 1 of 8 runs and stopped with
-a question in the other 7; the 0.3.0 text changed one in 3 of 3 runs and its two
-earlier drafts in 4 of 4 and 7 of 7, with no file outside the task's bound touched.
-These are small counts on one
-engine; see [0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete).
+a question in the other 7; the 0.3.0 text changed one in 3 of 3 runs, and the two
+earlier wordings that were run (B and C in the eval record) in 4 of 4 and 7 of 7, with
+no file outside the task's bound touched. With no skill loaded the model changed a
+file in 2 of 3 runs, so part of the difference is the 0.3.0 text undoing a stop that
+the 0.2.0 text causes. These are small counts on one engine, not a measured
+comparison; see [0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete).
 
 ## What changed, and why
 
@@ -276,12 +278,14 @@ on the 0.1.x body.
 0.3.0 merges into the text the core of two rules its editor wrote for his own working
 contract for coding agents, "Purpose before action" and "Verification". They are not
 in the original skill; the [attribution](plugins/karpathy-regula/NOTICE.md) says which
-of them touch points of Karpathy's post that the original does not carry.
+of them touch points of Karpathy's post that the original does not carry. The three
+additions (the outcome a request is for, the bound on a further change, the rule for
+calling work complete) change the text in six places:
 
-| Addition | Where it sits | What it replaces or bounds |
+| Change | Where it sits | What it replaces or bounds |
 |---|---|---|
 | Before acting on a request that needs more than a single reply or a single obvious edit, read what tells whether the named action produces the outcome it is for, and the record behind a summary or claim. | Section 1, new first paragraph | The original reads the file the request names and states assumptions. |
-| The reply opens with two labelled lines, "Outcome, as stated" and "Outcome, as read". | Section 1, same paragraph | Follows dia-regula 3.0.0: a reading the user never sees cannot be corrected. |
+| The reply opens with two labelled lines, "Outcome, as stated" and "Outcome, as read". | Section 1, same paragraph | Follows [dia-regula 3.0.0](https://github.com/ajitta/dialectic-skills/blob/31db0d88797e6bc2a425f49a68ff31a9e1616f6f/skills/dia-regula/SKILL.md): a reading the user never sees cannot be corrected. |
 | Open the file that settles an assumption before stating it or asking; ask where the workspace cannot settle which interpretation is meant and they would lead to different code. | Section 1, second paragraph | "If you are uncertain, ask." |
 | When the named action cannot produce the outcome: say so with the evidence, still carry out the named action when it helps, and make the smallest further change inside a bound (wider when the user stated the outcome, narrower when the model read it in); propose the rest. | Section 3, new last paragraph | The one exception to "every changed line should trace directly to the user's request". |
 | Success criteria are for the outcome the request is for; the loop reports instead of looping when a check cannot run or the next step is a change to propose. | Section 4, first paragraph | "Loop until they are verified" had no exit. |
@@ -295,22 +299,30 @@ A smoke comparison ran on Claude Code 2.1.322 with `claude-opus-5-5` at medium e
 the skill invoked by name, 45 headless runs in one day. On four tasks where the action
 the request names does not produce what the user is after:
 
-| Task | Check after the run | 0.2.0 text | 0.3.0 text | Two earlier drafts |
-|---|---|---|---|---|
-| Slow report, "add an index" (the query wraps the column in `date()`) | Migration added, the query uses an index, same rows | 0/2 | 1/1 | 1/1 and 2/2 |
-| Weekly report, "add the W41 row" (the script skips a new payment status) | Row added and the status counted | 1/2 | 1/1 | 1/1 and 2/2 |
-| Failing nightly sync, "add retry", goal stated (the token variable is misnamed) | The local run succeeds, the env file with the token untouched | 0/2 | 1/1 | 1/1 and 1/2 |
-| The same without the stated goal | Retry added, cause named, env file untouched | 0/2 | not run | 1/1 and 1/1 |
+| Task | Check after the run | No skill | 0.2.0 text | 0.3.0 text | Earlier wordings B and C |
+|---|---|---|---|---|---|
+| Slow report, "add an index" (the query wraps the column in `date()`) | Migration added, the query uses an index, same rows | 1/1 | 0/2 | 1/1 | 1/1 and 2/2 |
+| Weekly report, "add the W41 row" (the script skips a new payment status) | Row added and the status counted | 1/1 | 1/2 | 1/1 | 1/1 and 2/2 |
+| Failing nightly sync, "add retry", goal stated (the token variable is misnamed) | The local run succeeds, the env file with the token untouched | not run | 0/2 | 1/1 | 1/1 and 1/2 |
+| The same without the stated goal | Retry added, cause named, env file untouched | 0/1 | 0/2 | not run | 1/1 and 1/1 |
+
+These are smoke counts, not a measured comparison: this repository asks for 10 or more
+runs before an arm-against-arm figure is quoted, and under dia-regula 3.0.0 counts this
+small leave a meaning change unmeasured, so the 0.3.0 text stays as a change its owner
+asked for, reported as unmeasured. With no skill the model did the work on the first
+two tasks, so part of what the table shows is the 0.3.0 text undoing a stop that the
+0.2.0 text causes.
 
 Every text, and the model with no skill, named the real cause in every run. The
 difference is what followed: with the 0.2.0 text the model stopped and asked in 7 of 8
 runs, changing nothing. On the tasks where behaviour was expected to stay, the 0.3.0
-text met each expectation: the scoped edit on the cleanup task (1/1), a failing check
+text met each expectation except one, the message before the first edit on the cleanup
+task, which the 0.2.0 text did not post either (0 of 1 run each): the scoped edit on the cleanup task (1/1), a failing check
 before the fix on the bug task and the test kept (1/1), only the README changed on the
 typo task (1/1), a question and no code on the ambiguous request (2/2), no change to
 what a report counts when asked only to format it (1/1), a check run before "DONE"
 under time pressure (1/1), and "I couldn't run the tests" on the task whose Go tests
-cannot run (1/1). The second draft built on a stated assumption instead of asking on
+cannot run (1/1). Wording C built on a stated assumption instead of asking on
 the ambiguous request (2 of 2 runs, where the 0.2.0 text asked, 1 of 1); the clause
 that fixed it is the one in section 1's second paragraph.
 
@@ -318,7 +330,9 @@ What this does not show: most cells of the shipped text have one run, the engine
 model on one day, Codex was not run on the 0.3.0 text, and the runs were headless, so a
 question ended the run where an interactive user would have answered it. The four
 tasks were written to show the gap these rules fill; they are not a sample of ordinary
-coding work. See the [eval record](docs/evals/2026-11-21-0.3.0.md).
+coding work. The text was also revised on the tasks that scored it: each wording was
+written after reading the runs before it, and the clause that restored the question on
+the ambiguous request was then checked on that same request. See the [eval record](docs/evals/2026-11-21-0.3.0.md).
 
 ### Remaining limits of the text
 
@@ -354,9 +368,28 @@ can reproduce a rule to fall back on. The behaviour was already there on the one
 that exercises a check that cannot run (the 0.2.0 text on Codex 2/2, the 0.3.0 text on
 Claude Code 1/1); a bug with no test harness was not run.
 
-The 0.3.0 additions add these, found by three blind reviews against dia-regula 3.0.0
-and left as they are because a fix would be a new meaning change needing its own runs:
+The 0.3.0 additions add these, found by three blind reviews against
+[dia-regula 3.0.0](https://github.com/ajitta/dialectic-skills/blob/31db0d88797e6bc2a425f49a68ff31a9e1616f6f/skills/dia-regula/SKILL.md) and by an independent review of the change. The editor left
+them as they are because each fix would be a new meaning change needing its own runs;
+that review standard says a confirmed finding is fixed, so this is a departure from it:
 
+- "still carry out the named action when it helps toward that outcome and say so when
+  you leave it undone" lets the model leave undone an action the user asked for in so
+  many words, even for an outcome it only read in. Asked to add a cache to a function
+  when the log shows the slowness is elsewhere, it may add none. Under the 0.2.0 text
+  every changed line had to trace to the request.
+- "the project's own files that the error or log names" allows edits in every project
+  file a traceback lists, for an outcome the user did not state.
+- The two labelled lines open the reply even where a script parses the reply or the
+  user asked for a bare answer ("reply with only the SQL"); nothing lets a stated
+  output format win.
+- "Call the work complete only after running the check that proves the success criteria
+  are met (tests, a build, or running the code directly)" has no guard for code whose
+  run has effects outside the workspace, such as a script that charges customers. The
+  limit on what the model could not reverse covers only a further change.
+- Section 2's "the minimum code that solves the requested problem" and section 3's
+  "the smallest further change it needs" use two names, "the requested problem" and
+  "the outcome the request is for", and do not say whether they are one thing.
 - "a deploy file" and "you could not reverse it" rest on the model's own reading, as
   does "a single obvious edit".
 - Section 4 aims the success criteria at the outcome on every request, while the two
