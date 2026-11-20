@@ -211,7 +211,7 @@ let you compare them. The revision has fewer lines but 17.7% more body text. Ver
 [0.2.0: reproduce first](#020-reproduce-first-even-for-a-one-line-fix). Version 0.3.0
 adds rules the original does not have, which takes the body from 2,677 to 6,757 bytes; see
 [0.3.0](#030-the-outcome-behind-a-request-and-calling-work-complete). Version 0.3.1
-rewrites the long sentences as shorter ones without changing the rules (7,022 bytes); see
+rewrites the long sentences as shorter ones and is meant to change no rule (7,058 bytes); see
 [0.3.1](#031-shorter-sentences).
 
 ## Evidence and limits
@@ -365,7 +365,7 @@ the ambiguous request was then checked on that same request. See the [eval recor
 
 ### 0.3.1: shorter sentences
 
-0.3.1 changes how the body is written, not what it says. The 0.3.0 body had sentences of
+0.3.1 is meant to change how the body is written, not what it says. The 0.3.0 body had sentences of
 up to 833 characters, because each paragraph was one sentence holding a rule with its
 condition and its reason. Nine paragraphs are rewritten in shorter sentences that stay
 inside their paragraph, so each rule is still whole in one place:
@@ -373,21 +373,26 @@ inside their paragraph, so each rule is still whole in one place:
 | | 0.3.0 | 0.3.1 |
 |---|---|---|
 | Longest sentence, characters | 833 | 279 |
-| Median sentence, characters | 323 | 133 |
-| Body, bytes | 6,757 | 7,022 |
+| Median sentence, characters | 323 | 148 |
+| Body, bytes | 6,757 | 7,058 |
 
 Section 1's paragraph on assumptions, which chained four cases in one sentence, is now a
 lead sentence with one labelled item per case, worked through in order. Wording that an
 earlier record had tied to behaviour is kept as it was.
 
 Two blind reviews of drafts found places where a split had cut a condition or a reason
-off the instruction it belonged to; all were fixed before any run. Then 17 smoke runs on
-Claude Code (`claude-opus-5-5`, the skill invoked by name) repeated the tasks of the 0.3.0
-record, one run each on most: every task met the expectation written for it in 0.3.0,
-including the tasks where behaviour was expected to stay, which the 0.3.0 text itself had
-not been run on. One thing differed: the two labelled lines were missing from one of six
-replies on the four larger tasks, where the 0.3.0 wordings had printed them every time (18
-of 18); two further runs of that task printed them. Codex was not run on the 0.3.1 text.
+off the instruction it belonged to; those were fixed before any run. An independent
+review then compared the text that was run with the 0.3.0 body paragraph by paragraph
+and found three more such places, fixed in the shipped text, which only its editor has
+checked since. 22 smoke runs on Claude Code (`claude-opus-5-5`, the skill invoked by
+name) repeated the tasks of the 0.3.0 record, 16 on the text before those last fixes and
+5 on the shipped text: every task met the expectation written for it in 0.3.0. That
+includes the tasks where behaviour was expected to stay, which the 0.3.0 text itself had
+not been run on. One thing differed: on the four larger tasks the two labelled lines
+opened 7 of 8 replies (two of them follow-up runs of the task that missed), where the
+0.3.0 wordings had printed them in 18 of 18 on Claude Code. Codex was not run on the
+0.3.1 text. The runs do not show that the rewrite leaves behaviour unchanged, only that
+no expectation was missed at one run per task.
 See the [eval record](docs/evals/2026-11-21-0.3.1.md).
 
 ### Remaining limits of the text
@@ -446,7 +451,7 @@ that review standard says a confirmed finding is fixed, so this is a departure f
   gets the two lines, and so does a reply whose form a wrapper or a CI prompt sets and
   not the user; "only the code" also meets section 4's "cite its output" with nothing
   said about which wins. The second rests on the model judging what it "could not
-  reverse", and its list of cases is not the same as section 3's; "Unless the user
+  reverse", and its list of cases is not the same as section 3's; "unless the user
   asked for that run" could be read into "fix it and make sure it works", and "changes
   a live database" could make a test against a development database a check that
   cannot run.
@@ -456,10 +461,11 @@ that review standard says a confirmed finding is fixed, so this is a departure f
 - "a deploy file" and "you could not reverse it" rest on the model's own reading, as
   does "a single obvious edit".
 - Section 4 aims the success criteria at the outcome on every request, while the two
-  labelled lines are asked for only above the threshold; in the runs they appeared on
-  every larger task and on some small ones.
+  labelled lines are asked for only above the threshold; in the 0.3.0 runs they appeared
+  on every larger task and on some small ones, and with the 0.3.1 wordings in 7 of 8 runs
+  of the larger tasks.
 - The list of further changes to propose and not make (irreversible, a dependency, a
-  deploy file, a credential) has no reason of its own, so the model cannot extend it
+  deploy or credential file) has no reason of its own, so the model cannot extend it
   to a case it does not name.
 - "Read" names two acts, opening files and taking the outcome to be something.
 - Nothing covers a record behind a claim that the model's tools cannot reach, such as
