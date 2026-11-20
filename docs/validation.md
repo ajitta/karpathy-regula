@@ -12,11 +12,13 @@ coding guidelines. The body changes were measured separately; see
 |---|---|
 | Python package tests and `package.py --check` | 9 passed; check passed with the new body hash in `docs/provenance.json` |
 | Reproducible ZIP | The same SHA-256 from Python 3.12, 3.13 and 3.14 |
-| Claude Code 2.1.322 | `--strict` validation of the plugin and of the marketplace passed (missing-icon advisory only) |
-| Named invocation | Claude Code: in the eval record's runs, `/karpathy-regula:coding-guidelines` with `--plugin-dir` loaded the intended body in 22 of 22 runs (`claude-opus-5-5`), read from each session's transcript; 5 of them loaded the shipped body |
+| Reproducible ZIP, release | Rebuilding tag `v0.3.1` gives the SHA-256 in the release's `SHA256SUMS.txt`, and the downloaded asset matches it |
+| Claude Code 2.1.322 | `--strict` validation of the plugin and of the marketplace passed (missing-icon advisory only). After the merge, 0.3.1 installed from `ajitta/karpathy-regula` and from the `ajitta/claude-plugins` catalog, each in a fresh configuration directory, and both installed copies contain a sentence that exists only in the 0.3.1 body; an install of 0.3.0 made before the merge went to 0.3.1 with `marketplace update` and `plugin update` |
+| Codex CLI 0.167.2 | After the merge, 0.3.1 installed from `ajitta/karpathy-regula` in an isolated state directory; an install of 0.3.0 made before the merge went to 0.3.1 with `marketplace upgrade` and `plugin add`, and the installed copy contains the same sentence |
+| Named invocation | Claude Code: in the eval record's runs, `/karpathy-regula:coding-guidelines` with `--plugin-dir` loaded the intended body in 22 of 22 runs (`claude-opus-5-5`), read from each session's transcript; 5 of them loaded the shipped body. After the merge, the same invocation on the released tree quoted a sentence of the 0.3.1 body verbatim (1 of 1 run, Haiku). Codex's named invocation was not run on 0.3.1 |
 
-Install and update checks on the GitHub route are made after the merge and recorded
-here then.
+The isolated directories were deleted afterward. The owner's installed plugins and
+settings were not changed.
 
 ## 0.3.0 (2026-11-21)
 
